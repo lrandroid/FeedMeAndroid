@@ -26,6 +26,23 @@
             android:name=".Feed"
             android:label="@string/title_activity_feed" >
         </activity>
+        <activity
+            android:name=".NFCDialog"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="user"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.nfc.action.TECH_DISCOVERED"
+                android:resource="@xml/filter_nfc" />
+        </activity>
     </application>
 
 </manifest>
