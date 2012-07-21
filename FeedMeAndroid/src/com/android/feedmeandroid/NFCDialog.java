@@ -1,7 +1,6 @@
 package com.android.feedmeandroid;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -25,11 +24,6 @@ public class NFCDialog extends Activity {
 		super.onCreate(savedInstanceState);
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		AlertDialog.Builder done = new AlertDialog.Builder(this);
-		done.setTitle("Reading Tag");
-		done.setMessage("Loading information from NFC tag...");
-		done.setCancelable(false);
-		done.show();
 		mPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,
 				getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
 		IntentFilter ndef = new IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED);
@@ -64,10 +58,14 @@ public class NFCDialog extends Activity {
 				NdefMessage[] msgs = new NdefMessage[rawMsgs.length];
 				for (int i = 0; i < rawMsgs.length; i++) {
 					msgs[i] = (NdefMessage) rawMsgs[i];
-					String data = new String(msgs[i].toByteArray());
-					Log.v("asdf",
-							data.substring(data.indexOf(Constants.FEED_ME_ID)
-									+ Constants.FEED_ME_ID.length()));
+					String data_raw = new String(msgs[i].toByteArray());
+					String data = data_raw.substring(data_raw.indexOf(Constants.FEED_ME_ID)
+							+ Constants.FEED_ME_ID.length());
+					String[] data_split = data.split(",");
+					Session.set(data_split[0], data_split[1]);
+					Intent myIntent = new Intent(NFCDialog.this, Login.class);
+					NFCDialog.this.startActivity(myIntent);
+					break;
 				}
 			}
 		}// End of method
