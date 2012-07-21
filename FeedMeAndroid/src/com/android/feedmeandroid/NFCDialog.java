@@ -48,24 +48,21 @@ public class NFCDialog extends Activity {
 		// 2) Check if it was triggered by a tag discovered interruption.
 		if (action.equalsIgnoreCase("android.nfc.action.NDEF_DISCOVERED")) {
 			// 3) Get an instance of the TAG from the NfcAdapter
-			Tag tagFromIntent = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
 			// 4) Get an instance of the Mifare classic card from this TAG
 			// intent
-			MifareUltralight mfc = MifareUltralight.get(tagFromIntent);
 			Parcelable[] rawMsgs = intent
 					.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
 			if (rawMsgs != null) {
 				NdefMessage[] msgs = new NdefMessage[rawMsgs.length];
-				for (int i = 0; i < rawMsgs.length; i++) {
-					msgs[i] = (NdefMessage) rawMsgs[i];
-					String data_raw = new String(msgs[i].toByteArray());
+				if (msgs.length>0) {
+					msgs[0] = (NdefMessage) rawMsgs[0];
+					String data_raw = new String(msgs[0].toByteArray());
 					String data = data_raw.substring(data_raw.indexOf(Constants.FEED_ME_ID)
 							+ Constants.FEED_ME_ID.length());
 					String[] data_split = data.split(",");
 					Session.set(data_split[0], data_split[1]);
 					Intent myIntent = new Intent(NFCDialog.this, Login.class);
 					NFCDialog.this.startActivity(myIntent);
-					break;
 				}
 			}
 		}// End of method
