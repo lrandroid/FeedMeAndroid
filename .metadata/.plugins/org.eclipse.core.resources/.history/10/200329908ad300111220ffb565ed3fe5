@@ -1,0 +1,31 @@
+package com.android.feedmeandroid;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.facebook.android.Facebook;
+
+import android.app.Activity;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.util.Log;
+
+public class Feed extends Activity {
+
+	Facebook facebook = new Facebook("409981355705862");
+	private SharedPreferences mPrefs;
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_feed);
+
+		
+		
+		
+		// query web client for the following:
+		// 1) notify them that the user has checked into the restaurant,
+		// along with user information
+		// 2)
+	}
+}
