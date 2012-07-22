@@ -44,7 +44,6 @@ public class Feed extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		Log.v("test", "test0");
 		// set facebook access token
 		mPrefs = getSharedPreferences(Constants.SHARED_PREFS_NAME, 0);
 		String access_token = mPrefs.getString("access_token", null);
@@ -61,11 +60,9 @@ public class Feed extends Activity {
 		 * Only call authorize if the access_token has expired.
 		 */
 		if (!facebook.isSessionValid()) {
-			Log.v("test", "test2");
 			facebook.authorize(this, new String[] {}, new DialogListener() {
 
 				public void onComplete(Bundle values) {
-					Log.v("test", "test3");
 					SharedPreferences.Editor editor = mPrefs.edit();
 					editor.putString("access_token", facebook.getAccessToken());
 					editor.putLong("access_expires",
@@ -86,7 +83,6 @@ public class Feed extends Activity {
 		}
 		// if already authorized fb user, then show menu
 		else {
-			Log.v("test", "test1");
 			showMenu();
 		}
 	}
@@ -140,7 +136,6 @@ public class Feed extends Activity {
 					String table_id = Session.getTable();
 					webRequest.put("table_id", "1");
 					webRequest.put("user", pass_user_info);
-
 					// 2) notify them that the user has checked into the
 					// restaurant,
 					// along with FB user information
@@ -165,14 +160,15 @@ public class Feed extends Activity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		// Use returned JSONObject to populate layout with food
 		ArrayList<Food> menu = new ArrayList<Food>();
 
+		Log.v("foodstart", Integer.toString(menus.size()));
 		for (JSONObject m : menus) {
 			try {
 				// need to grab comments with JSON request
 				final ArrayList<JSONObject> ratings = new ArrayList<JSONObject>();
+				Log.v("foodloop", Integer.toString(menus.size()));
 				Thread thread2 = new Thread(new Runnable() {
 					public void run() {
 						try {
@@ -208,9 +204,8 @@ public class Feed extends Activity {
 					JSONObject rating = ratings.get(i);
 					comments[i] = (String) rating.get("comment");
 				}
-
 				Food food = new Food(
-						(String) m.get("id"),
+						Integer.toString((Integer) m.get("id")),
 						(String) m.get("name"),
 						(String) m.get("description"),
 						"http://www.hdwallpapersarena.com/wp-content/uploads/2012/07/Fast-Food-HD-Wallpapers-and-Images-4.jpg",
@@ -219,7 +214,7 @@ public class Feed extends Activity {
 								.get("price"));
 				menu.add(food);
 			} catch (Exception e) {
-
+				e.printStackTrace();
 			}
 		}
 
@@ -231,7 +226,6 @@ public class Feed extends Activity {
 		items.setOrientation(LinearLayout.VERTICAL);
 		TextView text = new TextView(this);
 		text.setText("welcome: " + name[0] + " " + name[1]);
-		items.addView(text);
 		items.addView(text);
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.FILL_PARENT,

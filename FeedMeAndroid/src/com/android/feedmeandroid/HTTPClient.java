@@ -96,7 +96,7 @@ public class HTTPClient {
 					} else if (i == results.length - 1 && results.length > 1) {
 						jsonObjRecv = new JSONObject("{" + res);
 					} else {
-						jsonObjRecv = new JSONObject(res);
+						jsonObjRecv = new JSONObject("{" + res + "}");
 					}
 					retArray.add(jsonObjRecv);
 
