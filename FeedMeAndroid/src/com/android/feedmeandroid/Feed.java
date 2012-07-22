@@ -303,7 +303,6 @@ public class Feed extends Activity {
 		submitOrder.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-<<<<<<< HEAD
 				AlertDialog.Builder done = new AlertDialog.Builder(Feed.this);
 
 				done.setTitle("Submit Order");
@@ -326,9 +325,6 @@ public class Feed extends Activity {
 				});
 				done.setCancelable(false);
 				done.show();
-=======
-				order.submitOrder();
->>>>>>> 52242cdbfaf5cc369ba40cb4b1052ee1c0cd1ead
 			}
 
 		});
