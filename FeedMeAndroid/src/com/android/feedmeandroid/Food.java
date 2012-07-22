@@ -7,7 +7,7 @@ public class Food implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -1329012229322458612L;
-	public String id;
+	public int id;
 	public String title;
 	public String description;
 	public String image_url;
@@ -16,8 +16,9 @@ public class Food implements Serializable {
 	public int num_negative;
 	public String price;
 
-	public Food(String id, String title, String description, String image_url,
+	public Food(int id, String title, String description, String image_url,
 			int num_positive, int num_negative, String[] comment, String price) {
+		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.image_url = image_url;

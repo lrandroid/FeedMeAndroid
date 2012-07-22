@@ -219,7 +219,7 @@ public class Feed extends Activity {
 					comments[i] = (String) rating.get("comment");
 				}
 				Food food = new Food(
-						Integer.toString((Integer) m.get("id")),
+						(Integer) m.get("id"),
 						(String) m.get("name"),
 						(String) m.get("description"),
 						"http://i-cdn.apartmenttherapy.com/uimages/kitchen/2008_04_15-PlaneFood.jpg",

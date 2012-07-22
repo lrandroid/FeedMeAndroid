@@ -1,6 +1,7 @@
 package com.android.feedmeandroid;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.json.JSONObject;
 
@@ -27,7 +28,7 @@ public class Order {
 	public void submitOrder() {
 		int[] order_ids = new int[mOrder.size()];
 		for(int i = 0; i < mOrder.size(); i++) {
-			order_ids[i] = Integer.parseInt(mOrder.get(i).id);
+			order_ids[i] = mOrder.get(i).id;
 		}
 		
 		final int[] thread_order_ids = order_ids;
@@ -38,7 +39,7 @@ public class Order {
 					
 					JSONObject webRequest = new JSONObject();
 					webRequest.put("user_id", Feed.fb_id);
-					webRequest.put("order", thread_order_ids);
+					webRequest.put("order", Arrays.toString(thread_order_ids));
 					Log.v("request", webRequest.toString());
 					ArrayList<JSONObject> response = HTTPClient
 							.SendHttpPost(
