@@ -40,24 +40,20 @@ public class Payment extends Activity {
         }
     }
     
-    public static void submitReview(final int food_id, final boolean isThumpsUp) {
+    public static void submitReview(int food_id, boolean isThumpsUp) {
 		Thread thread = new Thread(new Runnable() {
 			public void run() {
 				try {					
 					JSONObject webRequest = new JSONObject();
-					webRequest.put("user_id", Feed.fb_id);
-					webRequest.put("dish_id", food_id);
-					if(isThumpsUp) {
-						webRequest.put("value", "1");
-					}
-					else {
-						webRequest.put("value", "-1");
-					}
-					webRequest.put("comment","");
+					String res_id = Session.getRestaurant();
+					webRequest.put("restaurant_id", "1");
+					String table_id = Session.getTable();
+					webRequest.put("table_id", "1");
+					webRequest.put("user", pass_user_info);
 					
 					Log.v("request", webRequest.toString());
-					ArrayList<JSONObject> response = HTTPClient.SendHttpPost(
-							Constants.WEB_CLIENT_REST_URL_RATINGS, webRequest);
+					ArrayList<JSONObject> tempMenu = HTTPClient.SendHttpPost(
+							Constants.WEB_CLIENT_REST_URL_USER, webRequest);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

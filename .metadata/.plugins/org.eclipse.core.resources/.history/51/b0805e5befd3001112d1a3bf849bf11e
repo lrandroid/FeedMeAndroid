@@ -57,7 +57,7 @@ public class Payment extends Activity {
 					
 					Log.v("request", webRequest.toString());
 					ArrayList<JSONObject> response = HTTPClient.SendHttpPost(
-							Constants.WEB_CLIENT_REST_URL_RATINGS, webRequest);
+							Constants.WEB_CLIENT_REST_URL_USER, webRequest);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

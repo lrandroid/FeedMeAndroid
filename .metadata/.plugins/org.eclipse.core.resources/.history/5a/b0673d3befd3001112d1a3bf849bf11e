@@ -47,7 +47,7 @@ public class Payment extends Activity {
 					JSONObject webRequest = new JSONObject();
 					webRequest.put("user_id", Feed.fb_id);
 					webRequest.put("dish_id", food_id);
-					if(isThumpsUp) {
+					if(isThumbsUp) {
 						webRequest.put("value", "1");
 					}
 					else {
@@ -56,8 +56,8 @@ public class Payment extends Activity {
 					webRequest.put("comment","");
 					
 					Log.v("request", webRequest.toString());
-					ArrayList<JSONObject> response = HTTPClient.SendHttpPost(
-							Constants.WEB_CLIENT_REST_URL_RATINGS, webRequest);
+					ArrayList<JSONObject> tempMenu = HTTPClient.SendHttpPost(
+							Constants.WEB_CLIENT_REST_URL_USER, webRequest);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
