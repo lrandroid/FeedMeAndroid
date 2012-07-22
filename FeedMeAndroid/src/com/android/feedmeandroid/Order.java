@@ -2,6 +2,10 @@ package com.android.feedmeandroid;
 
 import java.util.ArrayList;
 
+import org.json.JSONObject;
+
+import android.util.Log;
+
 public class Order {
 	private ArrayList<Food> mOrder = new ArrayList<Food>();
 	public void clear(){
@@ -18,5 +22,39 @@ public class Order {
 	}
 	public Food get(int index){
 		return mOrder.get(index);
+	}
+	
+	public void submitOrder() {
+		String order = Feed.fb_id;
+		for(Food f : mOrder) {
+			
+		}
+		//submit order
+		Thread thread = new Thread(new Runnable() {
+			public void run() {
+				try {
+					
+					JSONObject webRequest = new JSONObject();
+					String res_id = Session.getRestaurant();
+					webRequest.put("restaurant_id", "1");
+					Log.v("request", webRequest.toString());
+					ArrayList<JSONObject> response = HTTPClient
+							.SendHttpPost(
+									Constants.WEB_CLIENT_REST_URL_ORDER,
+									webRequest);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+
+		thread.start();
+		try {
+			thread.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

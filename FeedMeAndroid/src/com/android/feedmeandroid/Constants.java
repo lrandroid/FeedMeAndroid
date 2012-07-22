@@ -8,4 +8,5 @@ public class Constants {
 	public static final String FB_GRAPH_URL = "https://graph.facebook.com/";
 	public static final String WEB_CLIENT_REST_URL_USER = "http://polar-sands-9386.herokuapp.com/users.json";
 	public static final String WEB_CLIENT_REST_URL_COMMENTS = "http://polar-sands-9386.herokuapp.com/ratings/search.json";
+	public static final String WEB_CLIENT_REST_URL_ORDER = "http://polar-sands-9386.herokuapp.com/orders.json";
 }
