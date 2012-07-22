@@ -24,6 +24,7 @@ public class Feed extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		Log.v("test","test0");
 		// set facebook access token
 		mPrefs = getSharedPreferences(Constants.SHARED_PREFS_NAME, 0);
 		String access_token = mPrefs.getString("access_token", null);
@@ -40,9 +41,11 @@ public class Feed extends Activity {
 		 * Only call authorize if the access_token has expired.
 		 */
 		if (!facebook.isSessionValid()) {
+			Log.v("test","test2");
 			facebook.authorize(this, new String[] {}, new DialogListener() {
 
 				public void onComplete(Bundle values) {
+					Log.v("test","test3");
 					SharedPreferences.Editor editor = mPrefs.edit();
 					editor.putString("access_token", facebook.getAccessToken());
 					editor.putLong("access_expires",
@@ -63,6 +66,7 @@ public class Feed extends Activity {
 		}
 		//if already authorized fb user, then show menu
 		else {
+			Log.v("test","test1");
 			showMenu();
 		}
 	}
@@ -78,6 +82,7 @@ public class Feed extends Activity {
     public void onResume() {    
         super.onResume();
         facebook.extendAccessTokenIfNeeded(this, null);
+        showMenu();
     }
     
 	public void showMenu() {
