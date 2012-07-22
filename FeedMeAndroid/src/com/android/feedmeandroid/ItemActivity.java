@@ -35,8 +35,8 @@ public class ItemActivity extends Activity {
 		}
 		final Food this_food = temp_food;
 		setTitle(this_food.title);
-		LinearLayout layout = new LinearLayout(this);
-		layout.setOrientation(LinearLayout.VERTICAL);
+		LinearLayout toplayout = new LinearLayout(this);
+		toplayout.setOrientation(LinearLayout.VERTICAL);
 
 		RelativeLayout rLayout = new RelativeLayout(this);
 		LayoutParams rlParams = new LayoutParams(LayoutParams.FILL_PARENT,
@@ -77,11 +77,13 @@ public class ItemActivity extends Activity {
 		rLayout.addView(rating_layout);
 		LayoutParams params = rating_layout.getLayoutParams();
 		params.height = 65;
-		layout.addView(rLayout);
+		toplayout.addView(rLayout);
 		TextView description_view = new TextView(this);
 		description_view.setText(this_food.description+"\n\n");
-		layout.addView(description_view);
+		toplayout.addView(description_view);
 		Button add = new Button(this);
+		add.setBackgroundResource(R.drawable.candidate_first_dark);
+		add.setTextColor(Color.WHITE);
 		add.setText("Add");
 		add.setOnClickListener(new OnClickListener(){
 
@@ -100,6 +102,9 @@ public class ItemActivity extends Activity {
 			}
 			
 		});
+		LinearLayout layout = new LinearLayout(this);
+		layout.setOrientation(LinearLayout.VERTICAL);
+		layout.addView(toplayout, Feed.width, 3*Feed.height/4);
 		layout.addView(add);
 		/*TextView comments_header = new TextView(this);
 		comments_header.setText("Reviews:");

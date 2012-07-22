@@ -24,6 +24,8 @@
         </activity>
         <activity android:name=".ItemActivity">
         </activity>
+         <activity android:name=".Payment">
+        </activity>
         <activity
             android:name=".NFCLoader"
             android:configChanges="orientation|screenSize"

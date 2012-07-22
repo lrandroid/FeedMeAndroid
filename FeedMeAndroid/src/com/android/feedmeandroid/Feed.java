@@ -47,6 +47,9 @@ public class Feed extends Activity {
 	static String fb_id = "";
 	static int width;
 	static int height;
+	static LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
+			LinearLayout.LayoutParams.FILL_PARENT,
+			LinearLayout.LayoutParams.FILL_PARENT);
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -57,7 +60,7 @@ public class Feed extends Activity {
             Intent myIntent = new Intent(Feed.this, Payment.class);
             Feed.this.startActivity(myIntent);
 		}
-		
+		buttonParams.gravity = Gravity.CENTER_HORIZONTAL;
 		Display display = getWindowManager().getDefaultDisplay();
 		Point size = new Point();
 		width = display.getWidth();
@@ -120,6 +123,11 @@ public class Feed extends Activity {
 	public void onResume() {
 		super.onResume();
 		facebook.extendAccessTokenIfNeeded(this, null);
+		if(hasOrdered) {
+            //launch "payments page"
+            Intent myIntent = new Intent(Feed.this, Payment.class);
+            Feed.this.startActivity(myIntent);
+		}
 		showMenu();
 	}
 
@@ -307,8 +315,10 @@ public class Feed extends Activity {
 
 		// add submit order button
 		Button submitOrder = new Button(this);
+		submitOrder.setTextColor(Color.WHITE);
+		submitOrder.setBackgroundResource(R.drawable.candidate_first_dark);
+
 		submitOrder.setText("View Order");
-		submitOrder.setGravity(Gravity.CENTER | Gravity.BOTTOM);
 		submitOrder.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
@@ -323,8 +333,11 @@ public class Feed extends Activity {
 				layoutParams.setMargins(20, 15, 20, 20);
 				double sum = 0;
 				final TextView subtotal = new TextView(Feed.this);
+				subtotal.setTextSize(22);
 				final TextView tax = new TextView(Feed.this);
+				tax.setTextSize(22);
 				final TextView total = new TextView(Feed.this);
+				total.setTextSize(22);
 				final DecimalFormat rounding = new DecimalFormat("#0.00");
 
 				for (int i = 0; i < order.size(); i++) {
@@ -336,6 +349,7 @@ public class Feed extends Activity {
 					sum += Double.parseDouble(food.price);
 					item_description.setTextSize(24);
 					Button delete = new Button(Feed.this);
+					delete.setTextColor(Color.WHITE);
 					delete.setBackgroundResource(R.drawable.x);
 					delete.setOnClickListener(new OnClickListener() {
 
@@ -365,13 +379,17 @@ public class Feed extends Activity {
 				double tax_cost = sum * .0725;
 				double total_cost = sum + tax_cost;
 				tax.setText("Tax: $" + rounding.format(tax_cost));
-				total.setText("total: $" + rounding.format(total_cost));
-
-				item_layout.addView(subtotal);
-				item_layout.addView(tax);
-				item_layout.addView(total);
-
-				done.setView(item_layout);
+				total.setText("Total: $" + rounding.format(total_cost));
+				LinearLayout cost_layout = new LinearLayout(Feed.this);
+				cost_layout.setOrientation(LinearLayout.VERTICAL);
+				cost_layout.setBackgroundResource(R.drawable.guide_click_botton_bg);
+				cost_layout.addView(subtotal);
+				cost_layout.addView(tax);
+				cost_layout.addView(total);
+				item_layout.addView(cost_layout);
+				ScrollView scroll = new ScrollView(Feed.this);
+				scroll.addView(item_layout);
+				done.setView(scroll);
 				done.setTitle("View Order");
 				done.setPositiveButton("Submit",
 						new DialogInterface.OnClickListener() {
@@ -407,8 +425,8 @@ public class Feed extends Activity {
 
 		// add both elements to full menu
 
-		fullMenu.addView(scroll, width, 4 * height / 5);
-		fullMenu.addView(submitOrder);
+		fullMenu.addView(scroll, width, 3 * height / 4);
+		fullMenu.addView(submitOrder, buttonParams);
 		setContentView(fullMenu);
 
 	}

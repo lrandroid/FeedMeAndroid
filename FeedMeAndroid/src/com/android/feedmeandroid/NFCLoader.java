@@ -52,18 +52,24 @@ public class NFCLoader extends Activity {
 					.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
 			if (rawMsgs != null) {
 				NdefMessage[] msgs = new NdefMessage[rawMsgs.length];
-				if (msgs.length>0) {
+				if (msgs.length > 0) {
 					msgs[0] = (NdefMessage) rawMsgs[0];
 					String data_raw = new String(msgs[0].toByteArray());
-					String data = data_raw.substring(data_raw.indexOf(Constants.FEED_ME_ID)
+					String data = data_raw.substring(data_raw
+							.indexOf(Constants.FEED_ME_ID)
 							+ Constants.FEED_ME_ID.length());
 					String[] data_split = data.split(",");
 					Session.set(data_split[0], data_split[1]);
 					Intent myIntent = new Intent(NFCLoader.this, Feed.class);
-					
-					//clear order
-					Feed.order.clear();
-					
+
+					// clear order
+					if (!Feed.hasOrdered) {
+						if (Feed.order != null)
+							Feed.order.clear();
+						else
+							Feed.order = new Order();
+					}
+
 					NFCLoader.this.startActivity(myIntent);
 				}
 			}
