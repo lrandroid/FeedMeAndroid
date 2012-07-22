@@ -11,20 +11,18 @@ public class Food implements Serializable {
 	public String title;
 	public String description;
 	public String image_url;
-	public String[] comment;
 	public int num_positive;
 	public int num_negative;
 	public String price;
 
 	public Food(int id, String title, String description, String image_url,
-			int num_positive, int num_negative, String[] comment, String price) {
+			int num_positive, int num_negative, String price) {
 		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.image_url = image_url;
 		this.num_positive = num_positive;
 		this.num_negative = num_negative;
-		this.comment = comment.clone();
 		this.price = price;
 	}
 }
