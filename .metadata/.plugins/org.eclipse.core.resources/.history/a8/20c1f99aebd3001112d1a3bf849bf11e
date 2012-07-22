@@ -50,7 +50,6 @@ public class Feed extends Activity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 		//take to payment page if they've already ordered
 		if(hasOrdered) {
             //launch "payments page"
@@ -58,6 +57,7 @@ public class Feed extends Activity {
             Feed.this.startActivity(myIntent);
 		}
 		
+		super.onCreate(savedInstanceState);
 		Display display = getWindowManager().getDefaultDisplay();
 		Point size = new Point();
 		width = display.getWidth();
