@@ -1,5 +1,7 @@
 package com.android.feedmeandroid;
 
+import java.util.ArrayList;
+
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -7,6 +9,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -111,13 +115,13 @@ public class Feed extends Activity {
 					JSONObject pass_user_info = new JSONObject();
 					pass_user_info.put("first_name", first_name);
 					pass_user_info.put("last_name", last_name);
-					// pass_user_info.put("facebook_id",facebook_id);
+					pass_user_info.put("facebook_id",facebook_id);
 
 					JSONObject webRequest = new JSONObject();
 					String res_id = Session.getRestaurant();
-					webRequest.put("restaurant_id", res_id);
+					webRequest.put("restaurant_id", "1");
 					String table_id = Session.getTable();
-					webRequest.put("table_id", table_id);
+					webRequest.put("table_id", "1");
 					webRequest.put("user", pass_user_info);
 
 					// 2) notify them that the user has checked into the restaurant,
@@ -144,17 +148,47 @@ public class Feed extends Activity {
 			// Log.v("tested request",menu.toString());
 
 			// Use returned JSONObject to populate layout with food
+			ArrayList<Food> menu = new ArrayList<Food>();
+			String[] comments = new String[2];
+			comments[0] = "comment1";
+			comments[1] = "comment2";
+			Food test1 = new Food("title1", "delecious1", "url1", 1, 1, comments, "1.00");
+			for(int i = 0; i < 5; i++) {
+				menu.add(test1);
+			}
+			
 			LinearLayout linear = new LinearLayout(this);
 			linear.setOrientation(LinearLayout.VERTICAL);
 			TextView text = new TextView(this);
 			text.setText("welcome: " + name[0] + " " + name[1]);
 			linear.addView(text);
+			
+			for(final Food f : menu) {
+				LinearLayout item = new LinearLayout(this);
+				item.setOrientation(LinearLayout.VERTICAL);
+				TextView title_and_price = new TextView(this);
+				title_and_price.setText(f.title + " " + f.price);
+				item.addView(title_and_price);
+				
+				//make each item clickable to take to the food page
+				item.setOnClickListener(new OnClickListener() {
+
+					public void onClick(View v) {
+						//showFood(f);
+					}
+					
+				});
+				
+				linear.addView(item);
+			}
+			
 			setContentView(linear);
+
 	
 		// gotta catch em all
 
 	}
-
+	
 	public void showFood(Food food) {
 		Intent myIntent = new Intent(Feed.this, ItemActivity.class);
 		Bundle bundle = new Bundle();
