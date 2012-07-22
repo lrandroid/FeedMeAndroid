@@ -1,0 +1,336 @@
+package com.android.feedmeandroid;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.json.JSONObject;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
+
+import com.android.feedmeandroid.exception.StripeException;
+import com.android.feedmeandroid.model.Charge;
+
+public class Payment extends Activity {
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		if(!Feed.hasOrdered || !InRestaurant.isDoneEating) {
+			Intent myIntent = new Intent(Payment.this, Feed.class);
+			Payment.this.startActivity(myIntent);
+			return;
+		}
+		
+		setTitle("Payment");
+		final LinearLayout item_layout = new LinearLayout(Payment.this);
+		item_layout.setOrientation(LinearLayout.VERTICAL);
+		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.FILL_PARENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT);
+		LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.FILL_PARENT,
+				LinearLayout.LayoutParams.FILL_PARENT);
+		layoutParams.height = 88;
+		layoutParams.width = 90;
+		layoutParams.setMargins(20, 15, 20, 20);
+		double sum = 0;
+		final TextView subtotal = new TextView(Payment.this);
+		subtotal.setTextSize(24);
+		final TextView tax = new TextView(Payment.this);
+		tax.setTextSize(24);
+		final TextView total = new TextView(Payment.this);
+		total.setTextSize(24);
+
+		final DecimalFormat rounding = new DecimalFormat("#0.00");
+
+		final int[] isThumpedUps = new int[Feed.order.size()];
+
+		for (int i = 0; i < Feed.order.size(); i++) {
+			final int index = i;
+			final Food food = Feed.order.get(i);
+			final LinearLayout this_layout = new LinearLayout(Payment.this);
+			this_layout.setOrientation(LinearLayout.HORIZONTAL);
+			TextView item_description = new TextView(Payment.this);
+			item_description.setText(food.title + "\n" + food.price);
+			sum += Double.parseDouble(food.price);
+			item_description.setTextSize(24);
+			item_description.setMinHeight(layoutParams.height * 2
+					+ layoutParams.bottomMargin * 2 + layoutParams.topMargin
+					* 2);
+			item_description.setGravity(Gravity.CENTER_VERTICAL);
+			item_description.setLayoutParams(textParams);
+
+			final ToggleButton upvote = new ToggleButton(Payment.this);
+			upvote.setTextOff("");
+			upvote.setTextOn("");
+			upvote.setText("");
+			upvote.setBackgroundResource(R.drawable.thumbsup);
+			final ToggleButton downvote = new ToggleButton(Payment.this);
+			downvote.setTextOff("");
+			downvote.setTextOn("");
+			downvote.setText("");
+			downvote.setBackgroundResource(R.drawable.thumbsdown);
+			upvote.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView,
+						boolean isChecked) {
+					if (isChecked) {
+						downvote.setChecked(false);
+					}
+					isThumpedUps[index] = isChecked ? 1 : -1;
+				}
+
+			});
+
+			downvote.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView,
+						boolean isChecked) {
+					if (isChecked) {
+						upvote.setChecked(false);
+					}
+					isThumpedUps[index] = isChecked ? 1 : -1;
+				}
+
+			});
+			LinearLayout vote_layout = new LinearLayout(this);
+			vote_layout.setOrientation(LinearLayout.HORIZONTAL);
+			vote_layout.addView(upvote, layoutParams);
+			vote_layout.addView(downvote, layoutParams);
+			this_layout.addView(vote_layout);
+			this_layout.addView(item_description);
+			this_layout.setBackgroundResource(R.drawable.guide_click_botton_bg);
+			item_layout.addView(this_layout);
+		}
+		subtotal.setText("Subtotal: $" + rounding.format(sum));
+		double tax_cost = sum * .0725;
+		final double total_cost = sum + tax_cost;
+		tax.setText("Tax: $" + rounding.format(tax_cost));
+		total.setText("Total: $" + rounding.format(total_cost));
+
+		item_layout.addView(subtotal);
+		item_layout.addView(tax);
+		item_layout.addView(total);
+		ScrollView scroll = new ScrollView(Payment.this);
+		scroll.addView(item_layout);
+		LinearLayout full_layout = new LinearLayout(this);
+		full_layout.setOrientation(LinearLayout.VERTICAL);
+		full_layout.addView(scroll, Feed.width, 3 * Feed.height / 4);
+
+		Button paynow = new Button(this);
+		paynow.setText("Pay Now");
+		paynow.setTextSize(28);
+		paynow.setTextColor(Color.WHITE);
+		paynow.setTypeface(null, Typeface.BOLD);
+		paynow.setBackgroundResource(R.drawable.candidate_first_dark);
+		paynow.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				AlertDialog.Builder done = new AlertDialog.Builder(Payment.this);
+				final LinearLayout item_layout = new LinearLayout(Payment.this);
+				item_layout.setOrientation(LinearLayout.VERTICAL);
+				LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+						LinearLayout.LayoutParams.FILL_PARENT,
+						LinearLayout.LayoutParams.WRAP_CONTENT);
+				layoutParams.height = 50;
+				layoutParams.width = 50;
+				layoutParams.setMargins(20, 15, 20, 20);
+
+				final LinearLayout row_1 = new LinearLayout(Payment.this);
+				final LinearLayout row_2 = new LinearLayout(Payment.this);
+				final LinearLayout row_3 = new LinearLayout(Payment.this);
+				row_1.setOrientation(LinearLayout.HORIZONTAL);
+				row_2.setOrientation(LinearLayout.HORIZONTAL);
+				row_3.setOrientation(LinearLayout.HORIZONTAL);
+
+				final TextView cc_num_input = new TextView(Payment.this);
+				cc_num_input.setTextSize(18);
+				cc_num_input.setText("Credit Card: ");
+				cc_num_input.setTextColor(Color.WHITE);
+				final TextView exp_month_input = new TextView(Payment.this);
+				exp_month_input.setTextSize(18);
+				exp_month_input.setText("Exp Month:  ");
+				exp_month_input.setTextColor(Color.WHITE);
+				final TextView exp_year_input = new TextView(Payment.this);
+				exp_year_input.setTextSize(18);
+				exp_year_input.setText("Exp Year:    ");
+				exp_year_input.setTextColor(Color.WHITE);
+				final EditText cc_number = new EditText(Payment.this);
+				cc_number.setText("4242424242424242", null);
+				final EditText exp_month = new EditText(Payment.this);
+				exp_month.setText("12", null);
+				final EditText exp_year = new EditText(Payment.this);
+				exp_year.setText("2012", null);
+
+				row_1.addView(cc_num_input, Feed.width / 3, 100);
+				row_1.addView(cc_number);
+				row_2.addView(exp_month_input, Feed.width / 3, 100);
+				row_2.addView(exp_month);
+				row_3.addView(exp_year_input, Feed.width / 3, 100);
+				row_3.addView(exp_year);
+
+				item_layout.addView(row_1);
+				item_layout.addView(row_2);
+				item_layout.addView(row_3);
+
+				ScrollView scroll = new ScrollView(Payment.this);
+				scroll.addView(item_layout);
+				done.setView(scroll);
+				done.setTitle("Confirm Payment");
+				done.setPositiveButton("Submit",
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								// make payment
+								boolean successful = makePayment(rounding
+										.format(total_cost), cc_number
+										.getText().toString(), Integer
+										.parseInt(exp_month.getText()
+												.toString()),
+										Integer.parseInt(exp_year.getText()
+												.toString()));
+
+								// submit reviews
+								for (int i = 0; i < Feed.order.size(); i++) {
+									final Food food = Feed.order.get(i);
+									if (isThumpedUps[i] == -1) {
+										submitReview(food.id, false);
+									} else if (isThumpedUps[i] == 1) {
+										submitReview(food.id, true);
+									}
+								}
+
+								// end app!
+								Toast.makeText(
+										getApplicationContext(),
+										"Payment Successful! Thanks for dining with us.",
+										1).show();
+								Intent intent = new Intent(Intent.ACTION_MAIN);
+								intent.addCategory(Intent.CATEGORY_HOME);
+								intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+								
+								//reset variables
+								Session.set(null, null);
+								Feed.order.clear();
+								Feed.hasOrdered = false;
+								InRestaurant.isDoneEating = false;
+								startActivity(intent);
+							}
+
+						});
+				done.setNegativeButton("Cancel",
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								dialog.cancel();
+							}
+
+						});
+				done.setCancelable(false);
+				done.show();
+			}
+
+		});
+		full_layout.addView(paynow, Feed.buttonParams);
+		setContentView(full_layout);
+	}
+
+	public static boolean makePayment(final String amount,
+			final String cc_number, final int exp_month, final int exp_year) {
+		final boolean[] ret = new boolean[1];
+		ret[0] = false;
+		Thread thread = new Thread(new Runnable() {
+			public void run() {
+				try {
+					Stripe.apiKey = "L8px8dWKTJmab3qzAuq7Vh4hwp3sXbK4";
+					Map<String, Object> chargeMap = new HashMap<String, Object>();
+					chargeMap.put("amount",
+							(int) (100 * Double.parseDouble(amount)));
+					chargeMap.put("currency", "usd");
+					Map<String, Object> cardMap = new HashMap<String, Object>();
+					cardMap.put("number", cc_number);
+					cardMap.put("exp_month", exp_month);
+					cardMap.put("exp_year", exp_year);
+					chargeMap.put("card", cardMap);
+					Charge charge = Charge.create(chargeMap);
+					ret[0] = true;
+					Log.v("payment", "paytest2");
+				} catch (StripeException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		thread.start();
+		try {
+			thread.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return ret[0];
+
+	}
+
+	public static void submitReview(final int food_id, final boolean isThumpsUp) {
+		Thread thread = new Thread(new Runnable() {
+			public void run() {
+				try {
+					JSONObject webRequest = new JSONObject();
+					webRequest.put("user_id", Feed.fb_id);
+					webRequest.put("dish_id", food_id);
+					if (isThumpsUp) {
+						webRequest.put("value", "1");
+					} else {
+						webRequest.put("value", "-1");
+					}
+					webRequest.put("comment", "");
+
+					Log.v("request", webRequest.toString());
+					ArrayList<JSONObject> response = HTTPClient.SendHttpPost(
+							Constants.WEB_CLIENT_REST_URL_RATINGS, webRequest);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+
+		thread.start();
+		try {
+			thread.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+}

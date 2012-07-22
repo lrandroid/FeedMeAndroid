@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.android.feedmeandroid.exception.StripeException;
@@ -33,6 +35,13 @@ public class Payment extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		if(!Feed.hasOrdered || !InRestaurant.isDoneEating) {
+			Intent myIntent = new Intent(Payment.this, Feed.class);
+			Payment.this.startActivity(myIntent);
+			return;
+		}
+		
 		setTitle("Payment");
 		final LinearLayout item_layout = new LinearLayout(Payment.this);
 		item_layout.setOrientation(LinearLayout.VERTICAL);
@@ -150,14 +159,14 @@ public class Payment extends Activity {
 				layoutParams.height = 50;
 				layoutParams.width = 50;
 				layoutParams.setMargins(20, 15, 20, 20);
-				
+
 				final LinearLayout row_1 = new LinearLayout(Payment.this);
 				final LinearLayout row_2 = new LinearLayout(Payment.this);
 				final LinearLayout row_3 = new LinearLayout(Payment.this);
 				row_1.setOrientation(LinearLayout.HORIZONTAL);
 				row_2.setOrientation(LinearLayout.HORIZONTAL);
 				row_3.setOrientation(LinearLayout.HORIZONTAL);
-				
+
 				final TextView cc_num_input = new TextView(Payment.this);
 				cc_num_input.setTextSize(18);
 				cc_num_input.setText("Credit Card: ");
@@ -170,17 +179,17 @@ public class Payment extends Activity {
 				final EditText cc_number= new EditText(Payment.this);
 				cc_number.setText("4242424242424242",null);
 				final EditText exp_month = new EditText(Payment.this);
-				exp_month.setText("12",null);
+				exp_month.setText("12", null);
 				final EditText exp_year = new EditText(Payment.this);
-				exp_year.setText("2012",null);
-				
-				row_1.addView(cc_num_input,Feed.width/3,100);
+				exp_year.setText("2012", null);
+
+				row_1.addView(cc_num_input, Feed.width / 3, 100);
 				row_1.addView(cc_number);
-				row_2.addView(exp_month_input,Feed.width/3,100);
+				row_2.addView(exp_month_input, Feed.width / 3, 100);
 				row_2.addView(exp_month);
-				row_3.addView(exp_year_input,Feed.width/3,100);
+				row_3.addView(exp_year_input, Feed.width / 3, 100);
 				row_3.addView(exp_year);
-				
+
 				item_layout.addView(row_1);
 				item_layout.addView(row_2);
 				item_layout.addView(row_3);
@@ -195,21 +204,40 @@ public class Payment extends Activity {
 							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
-								//make payment
-								makePayment(total_cost, cc_number.getText().toString(),
-														Integer.parseInt(exp_month.getText().toString()),
-														Integer.parseInt(exp_year.getText().toString()));
-								
-								//submit reviews
+								// make payment
+								boolean successful = makePayment(rounding
+										.format(total_cost), cc_number
+										.getText().toString(), Integer
+										.parseInt(exp_month.getText()
+												.toString()),
+										Integer.parseInt(exp_year.getText()
+												.toString()));
+
+								// submit reviews
 								for (int i = 0; i < Feed.order.size(); i++) {
 									final Food food = Feed.order.get(i);
-									if(isThumpedUps[i] == -1) {
+									if (isThumpedUps[i] == -1) {
 										submitReview(food.id, false);
-									}
-									else if(isThumpedUps[i] == 1) {
+									} else if (isThumpedUps[i] == 1) {
 										submitReview(food.id, true);
 									}
 								}
+
+								// end app!
+								Toast.makeText(
+										getApplicationContext(),
+										"Payment Successful! Thanks for dining with us.",
+										1).show();
+								Intent intent = new Intent(Intent.ACTION_MAIN);
+								intent.addCategory(Intent.CATEGORY_HOME);
+								intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+								
+								//reset variables
+								Session.set(null, null);
+								Feed.order.clear();
+								Feed.hasOrdered = false;
+								InRestaurant.isDoneEating = false;
+								startActivity(intent);
 							}
 
 						});
@@ -232,17 +260,27 @@ public class Payment extends Activity {
 		setContentView(full_layout);
 	}
 
-	public static boolean makePayment(final double amount,
+	@Override
+	public void onResume() {
+		super.onResume();
+		if(!Feed.hasOrdered || !InRestaurant.isDoneEating) {
+			Intent myIntent = new Intent(Payment.this, Feed.class);
+			Payment.this.startActivity(myIntent);
+			return;
+		}
+	}
+	
+	public static boolean makePayment(final String amount,
 			final String cc_number, final int exp_month, final int exp_year) {
 		final boolean[] ret = new boolean[1];
 		ret[0] = false;
 		Thread thread = new Thread(new Runnable() {
 			public void run() {
 				try {
-					Log.v("payment","paytest1");
 					Stripe.apiKey = "L8px8dWKTJmab3qzAuq7Vh4hwp3sXbK4";
 					Map<String, Object> chargeMap = new HashMap<String, Object>();
-					chargeMap.put("amount", amount);
+					chargeMap.put("amount",
+							(int) (100 * Double.parseDouble(amount)));
 					chargeMap.put("currency", "usd");
 					Map<String, Object> cardMap = new HashMap<String, Object>();
 					cardMap.put("number", cc_number);
@@ -251,7 +289,7 @@ public class Payment extends Activity {
 					chargeMap.put("card", cardMap);
 					Charge charge = Charge.create(chargeMap);
 					ret[0] = true;
-					Log.v("payment","paytest2");
+					Log.v("payment", "paytest2");
 				} catch (StripeException e) {
 					e.printStackTrace();
 				}
