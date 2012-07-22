@@ -29,7 +29,7 @@ public class InRestaurant extends Activity {
 			Intent myIntent = new Intent(InRestaurant.this, Payment.class);
 			InRestaurant.this.startActivity(myIntent);
 		}
-		setTitle("In Restaurant");
+		setTitle("Dining");
 		LinearLayout layout = new LinearLayout(this);
 		layout.setOrientation(LinearLayout.VERTICAL);
 		Button get_assistance = new Button(this);
@@ -39,7 +39,7 @@ public class InRestaurant extends Activity {
 		Resources r = getResources();
 		Drawable[] layers = new Drawable[2];
 		layers[0] = r.getDrawable(R.drawable.waitress_state);
-		layers[1] = r.getDrawable(R.drawable.guide_click_botton_bg);
+		layers[1] = r.getDrawable(R.drawable.guide_click_botton_bg2);
 		LayerDrawable layerDrawable = new LayerDrawable(layers);
 		get_assistance.setBackgroundDrawable(layerDrawable);
 		get_assistance.setOnClickListener(new OnClickListener() {
@@ -105,19 +105,17 @@ public class InRestaurant extends Activity {
 	}
 
 	public static void callWaiter() {
-		
-		//call waiter
+
+		// call waiter
 		Thread thread = new Thread(new Runnable() {
 			public void run() {
 				try {
 					JSONObject webRequest = new JSONObject();
 					webRequest.put("user_id", Feed.fb_id);
-					webRequest.put("restaurant_id", "1");
+					webRequest.put("restaurant_id", Session.getRestaurant());
 					Log.v("request", webRequest.toString());
-					ArrayList<JSONObject> response = HTTPClient
-							.SendHttpPost(
-									Constants.WEB_CLIENT_REST_URL_WAITER,
-									webRequest);
+					ArrayList<JSONObject> response = HTTPClient.SendHttpPost(
+							Constants.WEB_CLIENT_REST_URL_WAITER, webRequest);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

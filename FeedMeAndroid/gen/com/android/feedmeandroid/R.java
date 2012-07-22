@@ -16,19 +16,20 @@ public final class R {
         public static final int close=0x7f020002;
         public static final int facebook_icon=0x7f020003;
         public static final int guide_click_botton_bg=0x7f020004;
-        public static final int ic_action_search=0x7f020005;
-        public static final int ic_launcher=0x7f020006;
-        public static final int ratings_bg=0x7f020007;
-        public static final int thumbs_down=0x7f020008;
-        public static final int thumbs_down_locked=0x7f020009;
-        public static final int thumbs_up=0x7f02000a;
-        public static final int thumbs_up_locked=0x7f02000b;
-        public static final int thumbsdown=0x7f02000c;
-        public static final int thumbsup=0x7f02000d;
-        public static final int waitress=0x7f02000e;
-        public static final int waitress_pressed=0x7f02000f;
-        public static final int waitress_state=0x7f020010;
-        public static final int x=0x7f020011;
+        public static final int guide_click_botton_bg2=0x7f020005;
+        public static final int ic_action_search=0x7f020006;
+        public static final int ic_launcher=0x7f020007;
+        public static final int ratings_bg=0x7f020008;
+        public static final int thumbs_down=0x7f020009;
+        public static final int thumbs_down_locked=0x7f02000a;
+        public static final int thumbs_up=0x7f02000b;
+        public static final int thumbs_up_locked=0x7f02000c;
+        public static final int thumbsdown=0x7f02000d;
+        public static final int thumbsup=0x7f02000e;
+        public static final int waitress=0x7f02000f;
+        public static final int waitress_pressed=0x7f020010;
+        public static final int waitress_state=0x7f020011;
+        public static final int x=0x7f020012;
     }
     public static final class id {
         public static final int menu_settings=0x7f080000;
@@ -44,7 +45,6 @@ public final class R {
         public static final int app_name=0x7f050000;
         public static final int hello_world=0x7f050001;
         public static final int menu_settings=0x7f050002;
-        public static final int title_activity_feed=0x7f050004;
         public static final int title_activity_login=0x7f050003;
     }
     public static final class style {

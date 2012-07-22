@@ -17,11 +17,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.Typeface;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,6 +30,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -61,7 +62,8 @@ public class Feed extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setTitle("FeedMeAndroid");
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+		setTitle("FeedMe");
 		// take to payment page if they've already ordered
 		if (hasOrdered && InRestaurant.isDoneEating) {
 			// launch "payments page"
@@ -145,14 +147,19 @@ public class Feed extends Activity {
 	}
 
 	static String[] urls = new String[] {
-			"http://i-cdn.apartmenttherapy.com/uimages/kitchen/2008_04_15-PlaneFood.jpg",
 			"http://aht.seriouseats.com/images/20110228-in-n-out-secret-menu%20-%2014.jpg",
+			"http://4.bp.blogspot.com/_UIXOn06Pz70/TTtWdtLED4I/AAAAAAAALKU/OLfdrbMZgbU/s800/Thai%2BGrilled%2BChicken%2BSatay%2BSalad%2B1%2B800.jpg",
 			"http://img.foodnetwork.com/FOOD/2011/04/12/FN_Neely-BBQ-Chicken_s4x3_lg.jpg",
-			"http://www.aiellospizza.com/pizza-page.jpg",
 			"http://www.spokesmanreview.com/media/photos/20080416_pasta.jpg",
-			"http://4.bp.blogspot.com/_UIXOn06Pz70/TTtWdtLED4I/AAAAAAAALKU/OLfdrbMZgbU/s800/Thai%2BGrilled%2BChicken%2BSatay%2BSalad%2B1%2B800.jpg", };
+			"http://www.aiellospizza.com/pizza-page.jpg",
+			"http://i-cdn.apartmenttherapy.com/uimages/kitchen/2008_04_15-PlaneFood.jpg",
+			"http://2.bp.blogspot.com/-EmD4HqPa_0Y/Te0aqHx6e0I/AAAAAAAAAls/8RvA0SVcFIM/s1600/3525434659_1e63b3cae8.jpg",
+			"http://1.bp.blogspot.com/-qFyNgWsjNz0/Ti7gQp0y-PI/AAAAAAAAAS8/ZvfitVnzD58/s1600/ice-cream_sandwich.jpg"
+
+	};
 
 	public void showMenu() {
+		setProgressBarIndeterminateVisibility(true);
 		// query facebook for basic user info
 		final String[] name = new String[2];
 		final ArrayList<JSONObject> menus = new ArrayList<JSONObject>();
@@ -183,9 +190,9 @@ public class Feed extends Activity {
 
 					JSONObject webRequest = new JSONObject();
 					String res_id = Session.getRestaurant();
-					webRequest.put("restaurant_id", "1");
+					webRequest.put("restaurant_id", res_id);
 					String table_id = Session.getTable();
-					webRequest.put("table_id", "1");
+					webRequest.put("table_id", table_id);
 					webRequest.put("user", pass_user_info);
 					// 2) notify them that the user has checked into the
 					// restaurant,
@@ -244,9 +251,29 @@ public class Feed extends Activity {
 				 * ratings.get(i); comments[i] = (String) rating.get("comment");
 				 * }
 				 */
+				String foodname = (String) m.get("name");
+				String name2 = foodname.toLowerCase();
+				String mUrl = null;
+				if (name2.contains("blt")){
+					mUrl = urls[5];
+				} else if (name2.contains("pizza")) {
+					mUrl = urls[4];
+				} else if (name2.contains("fettuccine")){
+					mUrl = urls[3];
+				} else if (name2.contains("salad")){
+					mUrl = urls[1];
+				} else if (name2.contains("burger")){
+					mUrl = urls[0];
+				} else if (name2.contains("chicken")){
+					mUrl = urls[2];
+				} else if (name2.contains("chocolate")){
+					mUrl = urls[6];
+				} else if (name2.contains("cream")){
+					mUrl = urls[7];
+				}
 				Food food = new Food((Integer) m.get("id"),
-						(String) m.get("name"), (String) m.get("description"),
-						urls[counter % urls.length],
+						foodname, (String) m.get("description"),
+						mUrl,
 						(Integer) m.get("upvotes"),
 						(Integer) m.get("downvotes"), (String) m.get("price"));
 				menu.add(food);
