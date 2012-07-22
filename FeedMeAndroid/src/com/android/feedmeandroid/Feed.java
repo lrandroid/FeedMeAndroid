@@ -7,8 +7,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.*;
 
+import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
+import com.facebook.android.FacebookError;
+import com.facebook.android.Facebook.DialogListener;
 
 public class Feed extends Activity {
 
@@ -19,7 +23,6 @@ public class Feed extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_feed);
 
 		// set facebook access token
 		mPrefs = getSharedPreferences(Constants.SHARED_PREFS_NAME, 0);
@@ -35,37 +38,82 @@ public class Feed extends Activity {
 			facebook.setAccessExpires(expires);
 		}
 
+		/*
+		 * Only call authorize if the access_token has expired.
+		 */
+		if (!facebook.isSessionValid()) {
+			facebook.authorize(this, new String[] {}, new DialogListener() {
+
+				public void onComplete(Bundle values) {
+					SharedPreferences.Editor editor = mPrefs.edit();
+					editor.putString("access_token", facebook.getAccessToken());
+					editor.putLong("access_expires",
+							facebook.getAccessExpires());
+					editor.commit();
+					Feed.this.showMenu();
+				}
+
+				public void onFacebookError(FacebookError error) {
+				}
+
+				public void onError(DialogError e) {
+				}
+
+				public void onCancel() {
+				}
+			});
+		}
+		//if already authorized fb user, then show menu
+		else {
+			showMenu();
+		}
+	}
+
+	public void showMenu() {
 		// query facebook for basic user info
 		String user_info = "";
 		JSONObject json_user_info;
 		try {
 			user_info = facebook.request("me");
 			json_user_info = new JSONObject(user_info);
-			
+
 			// query web client for the following:
 			// 1) construct user json object to pass to web client
 			// 2) notify them that the user has checked into the restaurant,
 			// along with FB user information
 			// 3) receive menu info for the restaurant from the site
+
+			// 1) construct user json object to pass to web client
 			String first_name = json_user_info.getString("first_name");
 			String last_name = json_user_info.getString("last_name");
 			String facebook_id = json_user_info.getString("id");
 			JSONObject pass_user_info = new JSONObject();
-			pass_user_info.put("first_name",first_name);
-			pass_user_info.put("last_name",last_name);
-			//pass_user_info.put("facebook_id",facebook_id);
-			
+			pass_user_info.put("first_name", first_name);
+			pass_user_info.put("last_name", last_name);
+			// pass_user_info.put("facebook_id",facebook_id);
+
 			JSONObject webRequest = new JSONObject();
 			String res_id = Session.getRestaurant();
-			webRequest.put("restaurant_id",res_id);
+			webRequest.put("restaurant_id", res_id);
 			String table_id = Session.getTable();
-			webRequest.put("table_id",table_id);
+			webRequest.put("table_id", table_id);
 			webRequest.put("user", pass_user_info);
 
-			Log.v("request",webRequest.toString());
-			JSONObject menu = HTTPClient.SendHttpPost(Constants.WEB_CLIENT_REST_URL, webRequest);
-			//Log.v("tested request",menu.toString());
-			
+			// 2) notify them that the user has checked into the restaurant,
+			// along with FB user information
+			// 3) receive menu info for the restaurant from the site
+			Log.v("request", webRequest.toString());
+			JSONObject menu = HTTPClient.SendHttpPost(
+					Constants.WEB_CLIENT_REST_URL, webRequest);
+			// Log.v("tested request",menu.toString());
+
+			// Use returned JSONObject to populate layout with food
+			LinearLayout linear = new LinearLayout(this);
+			linear.setOrientation(LinearLayout.VERTICAL);
+			TextView text = new TextView(this);
+			text.setText("welcome: " + first_name + " " + last_name);
+			linear.addView(text);
+			setContentView(linear);
 		}
 		// gotta catch em all
 		catch (Exception e) {

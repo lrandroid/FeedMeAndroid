@@ -14,17 +14,13 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".Login"
-            android:label="@string/title_activity_login" >
+            android:name=".Feed"
+            android:label="@string/title_activity_feed" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".Feed"
-            android:label="@string/title_activity_feed" >
         </activity>
         <activity
             android:name=".NFCLoader"

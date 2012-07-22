@@ -59,7 +59,7 @@ public class NFCLoader extends Activity {
 							+ Constants.FEED_ME_ID.length());
 					String[] data_split = data.split(",");
 					Session.set(data_split[0], data_split[1]);
-					Intent myIntent = new Intent(NFCLoader.this, Login.class);
+					Intent myIntent = new Intent(NFCLoader.this, Feed.class);
 					NFCLoader.this.startActivity(myIntent);
 				}
 			}

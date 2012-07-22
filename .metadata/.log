@@ -645,3 +645,9 @@ java.lang.IllegalStateException: Application does not have an active window
 	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:629)
 	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:584)
 	at org.eclipse.equinox.launcher.Main.run(Main.java:1438)
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2012-07-21 17:56:03.418
+!MESSAGE fileChanged: failed to find manifest package for project FeedMeAndroid
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2012-07-21 17:56:03.431
+!MESSAGE fileChanged: failed to find manifest package for project FeedMeAndroid
