@@ -177,7 +177,7 @@ public class Feed extends Activity {
 			item.setOnClickListener(new OnClickListener() {
 
 				public void onClick(View v) {
-					// showFood(f);
+					showFood(f);
 				}
 
 			});
