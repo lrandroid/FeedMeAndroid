@@ -23,7 +23,6 @@ import android.widget.TextView;
 import com.android.feedmeandroid.exception.StripeException;
 import com.android.feedmeandroid.model.Charge;
 
-
 public class Payment extends Activity {
 
 	@Override
@@ -112,46 +111,60 @@ public class Payment extends Activity {
 		paynow.setText("Pay Now");
 		paynow.setTextSize(28);
 		paynow.setTextColor(Color.WHITE);
-		paynow.setTypeface(null,Typeface.BOLD);
+		paynow.setTypeface(null, Typeface.BOLD);
 		paynow.setBackgroundResource(R.drawable.candidate_first_dark);
 		full_layout.addView(paynow, Feed.buttonParams);
 		setContentView(full_layout);
 	}
 
-	public static void makePayment() {
-		Stripe.apiKey = "L8px8dWKTJmab3qzAuq7Vh4hwp3sXbK4";
-		Map<String, Object> chargeMap = new HashMap<String, Object>();
-		chargeMap.put("amount", 100);
-		chargeMap.put("currency", "usd");
-		Map<String, Object> cardMap = new HashMap<String, Object>();
-		cardMap.put("number", "4242424242424242");
-		cardMap.put("exp_month", 12);
-		cardMap.put("exp_year", 2012);
-		chargeMap.put("card", cardMap);
-		try {
-			Charge charge = Charge.create(chargeMap);
-			System.out.println(charge);
-		} catch (StripeException e) {
-			e.printStackTrace();
-		}
-	}
-
-    
-    public static void submitReview(final int food_id, final boolean isThumpsUp) {
+	public static boolean makePayment(final double amount, final String cc_number, final int exp_month, final int exp_year) {
+		final boolean[] ret = new boolean[1];
+		ret[0] = false;
 		Thread thread = new Thread(new Runnable() {
 			public void run() {
-				try {					
+				try {
+					Stripe.apiKey = "L8px8dWKTJmab3qzAuq7Vh4hwp3sXbK4";
+					Map<String, Object> chargeMap = new HashMap<String, Object>();
+					chargeMap.put("amount", amount);
+					chargeMap.put("currency", "usd");
+					Map<String, Object> cardMap = new HashMap<String, Object>();
+					cardMap.put("number", cc_number);
+					cardMap.put("exp_month", exp_month);
+					cardMap.put("exp_year", exp_year);
+					chargeMap.put("card", cardMap);
+					Charge charge = Charge.create(chargeMap);
+					ret[0] = true;
+				} catch (StripeException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		thread.start();
+		try {
+			thread.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return ret[0];
+
+	}
+
+	public static void submitReview(final int food_id, final boolean isThumpsUp) {
+		Thread thread = new Thread(new Runnable() {
+			public void run() {
+				try {
 					JSONObject webRequest = new JSONObject();
 					webRequest.put("user_id", Feed.fb_id);
 					webRequest.put("dish_id", food_id);
-					if(isThumpsUp) {
+					if (isThumpsUp) {
 						webRequest.put("value", "1");
-					}
-					else {
+					} else {
 						webRequest.put("value", "-1");
 					}
-					webRequest.put("comment","");
-					
+					webRequest.put("comment", "");
+
 					Log.v("request", webRequest.toString());
 					ArrayList<JSONObject> response = HTTPClient.SendHttpPost(
 							Constants.WEB_CLIENT_REST_URL_RATINGS, webRequest);
@@ -161,7 +174,7 @@ public class Payment extends Activity {
 				}
 			}
 		});
-		
+
 		thread.start();
 		try {
 			thread.join();
@@ -170,5 +183,5 @@ public class Payment extends Activity {
 			e.printStackTrace();
 		}
 
-    }
+	}
 }

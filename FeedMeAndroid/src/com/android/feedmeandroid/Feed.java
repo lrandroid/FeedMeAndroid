@@ -60,6 +60,7 @@ public class Feed extends Activity {
             Intent myIntent = new Intent(Feed.this, Payment.class);
             Feed.this.startActivity(myIntent);
 		}
+		
 		buttonParams.gravity = Gravity.CENTER_HORIZONTAL;
 		Display display = getWindowManager().getDefaultDisplay();
 		Point size = new Point();
