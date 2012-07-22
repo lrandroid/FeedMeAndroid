@@ -180,6 +180,7 @@ public class Feed extends Activity {
 		Log.v("foodstart", Integer.toString(menus.size()));
 		for (JSONObject m : menus) {
 			try {
+				/*COMMENTED OUT REVIEWS
 				// need to grab comments with JSON request
 				final ArrayList<JSONObject> ratings = new ArrayList<JSONObject>();
 				Log.v("foodloop", Integer.toString(menus.size()));
@@ -217,14 +218,14 @@ public class Feed extends Activity {
 				for (int i = 0; i < ratings.size(); i++) {
 					JSONObject rating = ratings.get(i);
 					comments[i] = (String) rating.get("comment");
-				}
+				}*/
 				Food food = new Food(
 						(Integer) m.get("id"),
 						(String) m.get("name"),
 						(String) m.get("description"),
 						"http://i-cdn.apartmenttherapy.com/uimages/kitchen/2008_04_15-PlaneFood.jpg",
 						(Integer) m.get("upvotes"), (Integer) m
-								.get("downvotes"), comments, (String) m
+								.get("downvotes"), (String) m
 								.get("price"));
 				menu.add(food);
 			} catch (Exception e) {
@@ -248,7 +249,7 @@ public class Feed extends Activity {
 			LinearLayout item = new LinearLayout(this);
 			item.setOrientation(LinearLayout.VERTICAL);
 			TextView title_and_price = new TextView(this);
-			title_and_price.setText(f.title + " " + f.price);
+			title_and_price.setText(f.title + "... " + f.price);
 			title_and_price
 					.setBackgroundResource(R.drawable.guide_click_botton_bg);
 			item.addView(title_and_price);
