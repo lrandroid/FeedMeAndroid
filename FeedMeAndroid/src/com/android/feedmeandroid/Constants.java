@@ -10,4 +10,5 @@ public class Constants {
 	public static final String WEB_CLIENT_REST_URL_COMMENTS = "http://polar-sands-9386.herokuapp.com/ratings/search.json";
 	public static final String WEB_CLIENT_REST_URL_ORDER = "http://polar-sands-9386.herokuapp.com/orders.json";
 	public static final String WEB_CLIENT_REST_URL_RATINGS = "http://polar-sands-9386.herokuapp.com/ratings.json";
+	public static final String WEB_CLIENT_REST_URL_WAITER = "http://polar-sands-9386.herokuapp.com/waiter.json";
 }
