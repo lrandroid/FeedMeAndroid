@@ -42,7 +42,7 @@ public class Feed extends Activity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		if(order != null) {
+		if(order == null) {
 			order = new Order();
 		}
 		
