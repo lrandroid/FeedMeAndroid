@@ -1,5 +1,9 @@
 package com.android.feedmeandroid;
 
+import java.util.ArrayList;
+
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -9,6 +13,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -100,6 +105,32 @@ public class InRestaurant extends Activity {
 	}
 
 	public static void callWaiter() {
+		
+		//call waiter
+		Thread thread = new Thread(new Runnable() {
+			public void run() {
+				try {
+					JSONObject webRequest = new JSONObject();
+					webRequest.put("user_id", Feed.fb_id);
+					webRequest.put("restaurant_id", "1");
+					Log.v("request", webRequest.toString());
+					ArrayList<JSONObject> response = HTTPClient
+							.SendHttpPost(
+									Constants.WEB_CLIENT_REST_URL_WAITER,
+									webRequest);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 
+		thread.start();
+		try {
+			thread.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
