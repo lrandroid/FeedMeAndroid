@@ -28,7 +28,7 @@ public class Feed extends Activity {
 
 	Facebook facebook = new Facebook("409981355705862");
 	private SharedPreferences mPrefs;
-	Order order;
+	static Order order;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -186,7 +186,7 @@ public class Feed extends Activity {
 				bitmap = HTTPClient.downloadFile(f.image_url);
 				Cache.put(f.image_url, bitmap);
 			}
-			item.setBackgroundDrawable(new BitmapDrawable(getResources(),bitmap));
+			item.setBackgroundDrawable(bitmap);
 			// make each item clickable to take to the food page
 			item.setOnClickListener(new OnClickListener() {
 
