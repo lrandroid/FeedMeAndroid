@@ -154,7 +154,7 @@ public class Feed extends Activity {
 		String[] comments = new String[2];
 		comments[0] = "comment1";
 		comments[1] = "comment2";
-		Food test1 = new Food("title1", "delecious1", "url1", 1, 1, comments,
+		Food test1 = new Food("title1", "delecious1", "http://www.diet.com/info/img/nwaz_02_img0188.jpg", 1, 1, comments,
 				"1.00");
 		for (int i = 0; i < 5; i++) {
 			menu.add(test1);
