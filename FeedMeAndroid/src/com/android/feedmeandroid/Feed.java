@@ -19,10 +19,13 @@ import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -106,6 +109,7 @@ public class Feed extends Activity {
 	public void showMenu() {
 		// query facebook for basic user info
 		final String[] name = new String[2];
+		final ArrayList<JSONObject> menus = new ArrayList<JSONObject>();
 		Thread thread = new Thread(new Runnable() {
 			public void run() {
 				try {
@@ -143,8 +147,9 @@ public class Feed extends Activity {
 					// along with FB user information
 					// 3) receive menu info for the restaurant from the site
 					Log.v("request", webRequest.toString());
-					JSONObject menu = HTTPClient.SendHttpPost(
+					ArrayList<JSONObject> tempMenu = HTTPClient.SendHttpPost(
 							Constants.WEB_CLIENT_REST_URL, webRequest);
+					menus.addAll(tempMenu);
 					name[0] = first_name;
 					name[1] = last_name;
 				} catch (Exception e) {
@@ -164,20 +169,75 @@ public class Feed extends Activity {
 
 		// Use returned JSONObject to populate layout with food
 		ArrayList<Food> menu = new ArrayList<Food>();
-		String[] comments = new String[2];
-		comments[0] = "comment1";
-		comments[1] = "comment2";
-		Food test1 = new Food(
-				"Club Sandwich",
-				"Turkey, bacon, tomatos, and lettuce sandwiched between two pieces of slices of our freshly baked Italian Herb bread.",
-				"http://i-cdn.apartmenttherapy.com/uimages/kitchen/2008_04_15-PlaneFood.jpg",
-				1, 1, comments, "1.00");
-		for (int i = 0; i < 5; i++) {
-			menu.add(test1);
-		}
 
+<<<<<<< HEAD
 		LinearLayout linear = new LinearLayout(this);
 		linear.setOrientation(LinearLayout.VERTICAL);
+=======
+		for (JSONObject m : menus) {
+			try {
+				// need to grab comments with JSON request
+				final ArrayList<JSONObject> ratings = new ArrayList<JSONObject>();
+				Thread thread2 = new Thread(new Runnable() {
+					public void run() {
+						try {
+
+							// query web client for comments based on restaurant id
+							JSONObject webRequest = new JSONObject();
+							String res_id = Session.getRestaurant();
+							webRequest.put("restaurant_id", "1");
+							Log.v("request", webRequest.toString());
+							ArrayList<JSONObject> tempComments = HTTPClient
+									.SendHttpPost(
+											Constants.WEB_CLIENT_REST_URL_COMMENTS,
+											webRequest);
+							comments.addAll(tempComments);
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				});
+
+				thread2.start();
+				try {
+					thread2.join();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				String[] comment = new String[ratings.size()];
+				for(int i = 0; i < ratings.size(); i++) {
+					JSONObject rating = new JSONObject(ratings.get(i));
+					comment[i] = ratings.get(i);
+				}
+				
+				
+				Food food = new Food(
+						(String) m.get("id"),
+						(String) m.get("name"),
+						(String) m.get("description"),
+						"http://www.hdwallpapersarena.com/wp-content/uploads/2012/07/Fast-Food-HD-Wallpapers-and-Images-4.jpg",
+						(Integer) m.get("upvotes"), (Integer) m
+								.get("downvotes"), comments, (String) m
+								.get("price"));
+				menu.add(food);
+			} catch (Exception e) {
+
+			}
+
+		// put together full menu plus submit order button
+		LinearLayout fullMenu = new LinearLayout(this);
+		fullMenu.setOrientation(LinearLayout.VERTICAL);
+
+		LinearLayout items = new LinearLayout(this);
+		items.setOrientation(LinearLayout.VERTICAL);
+		TextView text = new TextView(this);
+		text.setText("welcome: " + name[0] + " " + name[1]);
+		items.addView(text);
+		items.addView(text);
+>>>>>>> f791276c36cc29fd31e77bf8a2e44f639b3937c6
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.FILL_PARENT,
 				LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -228,13 +288,31 @@ public class Feed extends Activity {
 				}
 
 			});
-			// item.setBackgroundResource(R.drawable.guide_click_botton_bg);
-			linear.addView(item, layoutParams);
+
+			items.addView(item, layoutParams);
 		}
-		linear.setBackgroundColor(Color.WHITE);
+		
+		items.setBackgroundColor(Color.WHITE);
 		ScrollView scroll = new ScrollView(this);
-		scroll.addView(linear);
-		setContentView(scroll);
+		scroll.addView(items);
+
+		// add submit order button
+		Button submitOrder = new Button(this);
+		submitOrder.setText("Submit Order");
+		submitOrder.setGravity(Gravity.CENTER | Gravity.BOTTOM);
+		submitOrder.setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {
+
+			}
+
+		});
+
+		// add both elements to full menu
+		fullMenu.addView(scroll);
+		fullMenu.addView(submitOrder);
+
+		setContentView(fullMenu);
 
 	}
 
