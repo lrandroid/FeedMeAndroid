@@ -43,7 +43,6 @@ public class Feed extends Activity {
 	Facebook facebook = new Facebook("409981355705862");
 	private SharedPreferences mPrefs;
 	static Order order;
-	static boolean hasOrdered = false; //checks if user has ordered already, and takes them to payment page if they have
 	static String fb_id = "";
 	static int width;
 	static int height;
@@ -51,13 +50,6 @@ public class Feed extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//take to payment page if they've already ordered
-		if(hasOrdered) {
-            //launch "payments page"
-            Intent myIntent = new Intent(Feed.this, Payment.class);
-            Feed.this.startActivity(myIntent);
-		}
-		
 		Display display = getWindowManager().getDefaultDisplay();
 		Point size = new Point();
 		width = display.getWidth();
@@ -257,7 +249,7 @@ public class Feed extends Activity {
 			LinearLayout item = new LinearLayout(this);
 			item.setOrientation(LinearLayout.VERTICAL);
 			TextView title_and_price = new TextView(this);
-			title_and_price.setText(f.title + "... " + f.price);
+			title_and_price.setText(f.title + " " + f.price);
 			title_and_price
 					.setBackgroundResource(R.drawable.guide_click_botton_bg);
 			item.addView(title_and_price);
@@ -380,11 +372,6 @@ public class Feed extends Activity {
 							public void onClick(DialogInterface dialog,
 									int which) {
 								order.submitOrder();
-								hasOrdered = true;
-								
-			                    //launch "payments page"
-			                    Intent myIntent = new Intent(Feed.this, Payment.class);
-			                    Feed.this.startActivity(myIntent);
 								dialog.cancel();
 							}
 
