@@ -651,3 +651,6 @@ java.lang.IllegalStateException: Application does not have an active window
 
 !ENTRY com.android.ide.eclipse.adt 4 0 2012-07-21 17:56:03.431
 !MESSAGE fileChanged: failed to find manifest package for project FeedMeAndroid
+
+!ENTRY org.eclipse.jdt.core 4 0 2012-07-21 19:46:25.316
+!MESSAGE Invalid ZIP archive: /Users/Wesley/Desktop/FeedMeAndroid/facebook-android-sdk/facebook/bin/facebook.jar

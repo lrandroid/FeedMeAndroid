@@ -66,14 +66,14 @@ public class HTTPClient {
 				String resultString= convertStreamToString(instream);
 				instream.close();
 				resultString = resultString.substring(1,resultString.length()-1); // remove wrapping "[" and "]"
-
+				Log.i(TAG,resultString);
 				// Transform the String into a JSONObject
 				JSONObject jsonObjRecv = new JSONObject(resultString);
 				// Raw DEBUG output of our received JSON object:
 				Log.i(TAG,"<JSONObject>\n"+jsonObjRecv.toString()+"\n</JSONObject>");
 
 				return jsonObjRecv;
-			} 
+			}
 
 		}
 		catch (Exception e)
