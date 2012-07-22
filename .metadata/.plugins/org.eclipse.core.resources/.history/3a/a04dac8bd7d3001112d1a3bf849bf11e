@@ -293,7 +293,7 @@ public class Feed extends Activity {
 		submitOrder.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				order.submitOrder();
+
 			}
 
 		});
