@@ -28,7 +28,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
@@ -148,7 +147,7 @@ public class Feed extends Activity {
 					// 3) receive menu info for the restaurant from the site
 					Log.v("request", webRequest.toString());
 					ArrayList<JSONObject> tempMenu = HTTPClient.SendHttpPost(
-							Constants.WEB_CLIENT_REST_URL, webRequest);
+							Constants.WEB_CLIENT_REST_URL_USER, webRequest);
 					menus.addAll(tempMenu);
 					name[0] = first_name;
 					name[1] = last_name;
@@ -170,10 +169,6 @@ public class Feed extends Activity {
 		// Use returned JSONObject to populate layout with food
 		ArrayList<Food> menu = new ArrayList<Food>();
 
-<<<<<<< HEAD
-		LinearLayout linear = new LinearLayout(this);
-		linear.setOrientation(LinearLayout.VERTICAL);
-=======
 		for (JSONObject m : menus) {
 			try {
 				// need to grab comments with JSON request
@@ -182,7 +177,8 @@ public class Feed extends Activity {
 					public void run() {
 						try {
 
-							// query web client for comments based on restaurant id
+							// query web client for comments based on restaurant
+							// id
 							JSONObject webRequest = new JSONObject();
 							String res_id = Session.getRestaurant();
 							webRequest.put("restaurant_id", "1");
@@ -191,7 +187,7 @@ public class Feed extends Activity {
 									.SendHttpPost(
 											Constants.WEB_CLIENT_REST_URL_COMMENTS,
 											webRequest);
-							comments.addAll(tempComments);
+							ratings.addAll(tempComments);
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -207,13 +203,12 @@ public class Feed extends Activity {
 					e.printStackTrace();
 				}
 
-				String[] comment = new String[ratings.size()];
-				for(int i = 0; i < ratings.size(); i++) {
-					JSONObject rating = new JSONObject(ratings.get(i));
-					comment[i] = ratings.get(i);
+				String[] comments = new String[ratings.size()];
+				for (int i = 0; i < ratings.size(); i++) {
+					JSONObject rating = ratings.get(i);
+					comments[i] = (String) rating.get("comment");
 				}
-				
-				
+
 				Food food = new Food(
 						(String) m.get("id"),
 						(String) m.get("name"),
@@ -226,6 +221,7 @@ public class Feed extends Activity {
 			} catch (Exception e) {
 
 			}
+		}
 
 		// put together full menu plus submit order button
 		LinearLayout fullMenu = new LinearLayout(this);
@@ -237,7 +233,6 @@ public class Feed extends Activity {
 		text.setText("welcome: " + name[0] + " " + name[1]);
 		items.addView(text);
 		items.addView(text);
->>>>>>> f791276c36cc29fd31e77bf8a2e44f639b3937c6
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.FILL_PARENT,
 				LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -291,7 +286,7 @@ public class Feed extends Activity {
 
 			items.addView(item, layoutParams);
 		}
-		
+
 		items.setBackgroundColor(Color.WHITE);
 		ScrollView scroll = new ScrollView(this);
 		scroll.addView(items);
