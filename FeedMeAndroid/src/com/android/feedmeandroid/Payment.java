@@ -22,7 +22,7 @@ public class Payment extends Activity {
 		
 	}
 	
-    public static void makePayment() {
+    public static boolean makePayment() {
         Stripe.apiKey = "L8px8dWKTJmab3qzAuq7Vh4hwp3sXbK4";
         Map<String, Object> chargeMap = new HashMap<String, Object>();
         chargeMap.put("amount", 100);
@@ -34,10 +34,12 @@ public class Payment extends Activity {
         chargeMap.put("card", cardMap);
         try {
             Charge charge = Charge.create(chargeMap);
-            System.out.println(charge);
+            return true;
         } catch (StripeException e) {
             e.printStackTrace();
         }
+        
+        return false;
     }
     
     public static void submitReview(final int food_id, final boolean isThumpsUp) {
