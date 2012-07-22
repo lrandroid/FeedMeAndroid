@@ -46,15 +46,32 @@ public class ItemActivity extends Activity {
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		tParams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
 		tParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-		TextView text = new TextView(this);
-		text.setText(this_food.num_positive + "+ " + this_food.num_negative
-				+ "-");
-		text.setTextColor(Color.WHITE);
-		text.setTypeface(Typeface.DEFAULT_BOLD);
-		text.setLayoutParams(tParams);
+		LinearLayout rating_layout = new LinearLayout(this);
+		rating_layout.setOrientation(LinearLayout.HORIZONTAL);
+		TextView text_p = new TextView(this);
+		text_p.setText(this_food.num_positive + "+");
+		text_p.setTextColor(Color.GREEN);
+		text_p.setTypeface(Typeface.DEFAULT_BOLD);
+		text_p.setLayoutParams(tParams);
+		text_p.setHeight(50);
+		text_p.setPadding(30, 0, 50, 0);
+		TextView text_n = new TextView(this);
+		text_n.setText(this_food.num_negative + "-");
+		text_n.setTextColor(Color.RED);
+		text_n.setTypeface(Typeface.DEFAULT_BOLD);
+		text_n.setLayoutParams(tParams);
+		text_n.setHeight(50);
+		rating_layout.addView(text_p);
+		rating_layout.addView(text_n);
+		rating_layout.setBackgroundResource(R.drawable.accent_bg);
+		rating_layout.setLayoutParams(new android.view.ViewGroup.LayoutParams(
+	            android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+	            android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 
 		rLayout.addView(image);
-		rLayout.addView(text);
+		rLayout.addView(rating_layout);
+		LayoutParams params = rating_layout.getLayoutParams();
+		params.height = 70;
 		layout.addView(rLayout);
 		TextView description_view = new TextView(this);
 		description_view.setText(this_food.description+"\n\n");

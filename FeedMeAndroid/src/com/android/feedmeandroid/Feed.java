@@ -8,13 +8,20 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -162,7 +169,7 @@ public class Feed extends Activity {
 		Food test1 = new Food(
 				"Hamburger",
 				"delecious1",
-				"http://www.hdwallpapersarena.com/wp-content/uploads/2012/07/Fast-Food-HD-Wallpapers-and-Images-4.jpg",
+				"http://i-cdn.apartmenttherapy.com/uimages/kitchen/2008_04_15-PlaneFood.jpg",
 				1, 1, comments, "1.00");
 		for (int i = 0; i < 5; i++) {
 			menu.add(test1);
@@ -173,20 +180,48 @@ public class Feed extends Activity {
 		TextView text = new TextView(this);
 		text.setText("welcome: " + name[0] + " " + name[1]);
 		linear.addView(text);
+		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.FILL_PARENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT);
+
+		layoutParams.setMargins(30, 20, 30, 0);
 
 		for (final Food f : menu) {
 			LinearLayout item = new LinearLayout(this);
 			item.setOrientation(LinearLayout.VERTICAL);
 			TextView title_and_price = new TextView(this);
 			title_and_price.setText(f.title + " " + f.price);
+			title_and_price
+					.setBackgroundResource(R.drawable.guide_click_botton_bg);
 			item.addView(title_and_price);
 			ImageView image = new ImageView(this);
 			Bitmap bitmap = Cache.get(f.image_url);
 			if (bitmap == null) {
 				bitmap = HTTPClient.downloadFile(f.image_url);
+				Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap
+		                .getHeight(), Config.ARGB_8888);
+		        Canvas canvas = new Canvas(output);
+
+		        final int color = 0xff424242;
+		        final Paint paint = new Paint();
+		        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+		        final RectF rectF = new RectF(rect);
+		        final float roundPx = 30;
+
+		        paint.setAntiAlias(true);
+		        canvas.drawARGB(0, 0, 0, 0);
+		        paint.setColor(color);
+		        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+
+		        paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+		        canvas.drawBitmap(bitmap, rect, rect, paint);
+		        bitmap = output;
 				Cache.put(f.image_url, bitmap);
 			}
-			item.setBackgroundDrawable(bitmap);
+			BitmapDrawable bg = new BitmapDrawable(getResources(),
+					bitmap);
+			item.setBackgroundDrawable(bg);
+
 			// make each item clickable to take to the food page
 			item.setOnClickListener(new OnClickListener() {
 
@@ -195,10 +230,10 @@ public class Feed extends Activity {
 				}
 
 			});
-			item.setBackgroundResource(R.drawable.guide_click_botton_bg);
-			linear.addView(item);
+			// item.setBackgroundResource(R.drawable.guide_click_botton_bg);
+			linear.addView(item, layoutParams);
 		}
-
+		linear.setBackgroundColor(Color.WHITE);
 		ScrollView scroll = new ScrollView(this);
 		scroll.addView(linear);
 		setContentView(scroll);
