@@ -29,7 +29,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -313,7 +312,7 @@ public class Feed extends Activity {
 					this_layout.setOrientation(LinearLayout.HORIZONTAL);
 					TextView item_description = new TextView(Feed.this);
 					item_description.setText(food.title);
-					item_description.setTextSize(22);
+					item_description.setTextSize(24);
 					Button delete = new Button(Feed.this);
 					delete.setBackgroundResource(R.drawable.x);
 					delete.setOnClickListener(new OnClickListener(){
