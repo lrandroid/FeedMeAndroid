@@ -125,7 +125,7 @@ public class Feed extends Activity {
 	public void showFood(Food food) {
 		Intent myIntent = new Intent(Feed.this, ItemActivity.class);
 		Bundle bundle = new Bundle();
-		bundle.putSerializable("value", food);
+		bundle.putSerializable("food", food);
 		Feed.this.startActivity(myIntent);
 	}
 }
