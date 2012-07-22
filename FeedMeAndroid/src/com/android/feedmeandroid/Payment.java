@@ -263,6 +263,7 @@ public class Payment extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
+		
 		if(!Feed.hasOrdered || !InRestaurant.isDoneEating) {
 			Intent myIntent = new Intent(Payment.this, Feed.class);
 			Payment.this.startActivity(myIntent);

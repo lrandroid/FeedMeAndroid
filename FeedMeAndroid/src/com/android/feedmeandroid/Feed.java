@@ -294,13 +294,14 @@ public class Feed extends Activity {
 				LinearLayout.LayoutParams.WRAP_CONTENT);
 
 		layoutParams.setMargins(30, 20, 30, 0);
+		final DecimalFormat rounding = new DecimalFormat("#0.00");
 
 		for (final Food f : menu) {
 			LinearLayout item = new LinearLayout(this);
 			item.setOrientation(LinearLayout.VERTICAL);
 			TextView title_and_price = new TextView(this);
 			title_and_price.setTextSize(20);
-			title_and_price.setText(f.title + "... " + f.price);
+			title_and_price.setText(f.title + "... " + rounding.format(Double.parseDouble(f.price)));
 			title_and_price
 					.setBackgroundResource(R.drawable.guide_click_botton_bg);
 			item.addView(title_and_price);

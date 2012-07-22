@@ -25,6 +25,7 @@ public class InRestaurant extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		if (isDoneEating) {
 			Intent myIntent = new Intent(InRestaurant.this, Payment.class);
 			InRestaurant.this.startActivity(myIntent);

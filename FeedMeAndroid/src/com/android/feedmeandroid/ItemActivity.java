@@ -1,5 +1,7 @@
 package com.android.feedmeandroid;
 
+import java.text.DecimalFormat;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -81,12 +83,25 @@ public class ItemActivity extends Activity {
 	            android.view.ViewGroup.LayoutParams.FILL_PARENT,
 	            android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 		TextView description_view = new TextView(this);
-		description_view.setText(this_food.description+"\n\n");
+		description_view.setText(this_food.description+"\n");
 		LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 	    llp.setMargins(50, 0, 50, 0); // llp.setMargins(left, top, right, bottom);
 		description_view.setLayoutParams(llp);
 		description_view.setTextSize(20);
 		toplayout.addView(description_view);
+
+		
+		TextView price_view = new TextView(this);
+		final DecimalFormat rounding = new DecimalFormat("#0.00");
+
+		price_view.setText("Price: $"+rounding.format(Double.parseDouble(this_food.price))+"\n\n");
+		LinearLayout.LayoutParams llp2 = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+	    llp2.setMargins(50, 0, 50, 0); // llp.setMargins(left, top, right, bottom);
+	    price_view.setLayoutParams(llp2);
+	    price_view.setTextSize(20);
+		toplayout.addView(price_view);
+
+		
 		Button add = new Button(this);
 		add.setBackgroundResource(R.drawable.candidate_first_dark);
 		add.setTextColor(Color.WHITE);
