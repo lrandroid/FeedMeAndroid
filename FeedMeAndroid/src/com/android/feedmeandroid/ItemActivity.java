@@ -6,29 +6,34 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ItemActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.v("asdf", "oncreate");
-		Food this_food = null;
+		Food temp_food = null;
 		try {
 			Intent i = getIntent();
-			this_food = (Food) i.getSerializableExtra("food");
+			temp_food = (Food) i.getSerializableExtra("food");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		if (this_food == null) {
+		if (temp_food == null) {
 			finish();
 			return;
 		}
+		final Food this_food = temp_food;
 		setTitle(this_food.title);
 		LinearLayout layout = new LinearLayout(this);
 		layout.setOrientation(LinearLayout.VERTICAL);
@@ -76,17 +81,31 @@ public class ItemActivity extends Activity {
 		TextView description_view = new TextView(this);
 		description_view.setText(this_food.description+"\n\n");
 		layout.addView(description_view);
+		Button add = new Button(this);
+		add.setText("Add");
+		add.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				Feed.order.addFood(this_food);
+				Toast.makeText(getApplicationContext(), "Item added!", 0).show();
+				finish();
+			}
+			
+		});
+		layout.addView(add);
 		TextView comments_header = new TextView(this);
 		comments_header.setText("Reviews:");
 		comments_header.setTypeface(null, Typeface.BOLD);
 		comments_header.setTextSize(22);
 		layout.addView(comments_header);
-		/*TextView comments_view[] = new TextView[this_food.comment.length];
+		TextView comments_view[] = new TextView[this_food.comment.length];
 		for (int i=0; i<this_food.comment.length; i++){
 			comments_view[i] = new TextView(this);
 			comments_view[i].setText(this_food.comment[i].trim());
+			comments_view[i].setBackgroundResource(R.drawable.guide_click_botton_bg);
 			layout.addView(comments_view[i]);
-		}*/
+		}
 		ScrollView scroll = new ScrollView(this);
 		scroll.addView(layout);
 		setContentView(scroll);
