@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -156,8 +157,11 @@ public class Feed extends Activity {
 		String[] comments = new String[2];
 		comments[0] = "comment1";
 		comments[1] = "comment2";
-		Food test1 = new Food("title1", "delecious1", "http://www.diet.com/info/img/nwaz_02_img0188.jpg", 1, 1, comments,
-				"1.00");
+		Food test1 = new Food(
+				"Hamburger",
+				"delecious1",
+				"http://www.hdwallpapersarena.com/wp-content/uploads/2012/07/Fast-Food-HD-Wallpapers-and-Images-4.jpg",
+				1, 1, comments, "1.00");
 		for (int i = 0; i < 5; i++) {
 			menu.add(test1);
 		}
@@ -175,9 +179,13 @@ public class Feed extends Activity {
 			title_and_price.setText(f.title + " " + f.price);
 			item.addView(title_and_price);
 			ImageView image = new ImageView(this);
-			image.setImageBitmap(HTTPClient.downloadFile(f.image_url));
+			Bitmap bitmap = Cache.get(f.image_url);
+			if (bitmap == null) {
+				bitmap = HTTPClient.downloadFile(f.image_url);
+				Cache.put(f.image_url, bitmap);
+			}
+			image.setImageBitmap(bitmap);
 			item.addView(image);
-
 			// make each item clickable to take to the food page
 			item.setOnClickListener(new OnClickListener() {
 
@@ -186,7 +194,7 @@ public class Feed extends Activity {
 				}
 
 			});
-
+			item.setBackgroundResource(R.drawable.guide_click_botton_bg);
 			linear.addView(item);
 		}
 

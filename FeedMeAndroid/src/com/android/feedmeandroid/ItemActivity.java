@@ -39,7 +39,7 @@ public class ItemActivity extends Activity {
 		rLayout.setLayoutParams(rlParams);
 
 		ImageView image = new ImageView(this);
-		image.setImageBitmap(HTTPClient.downloadFile(this_food.image_url));
+		image.setImageBitmap(Cache.get(this_food.image_url));
 		image.setLayoutParams(rlParams);
 
 		RelativeLayout.LayoutParams tParams = new RelativeLayout.LayoutParams(
