@@ -72,12 +72,14 @@ public class Feed extends Activity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		showFood(new Food("Burger", "It's a basic hamburger, no cheese.", "http://2.bp.blogspot.com/-aDHiEwso1D0/TdwoK4Ldp4I/AAAAAAAAAGQ/i3umFn7czXo/s1600/Burger%252BKing%252BWhopper%252B1.jpg",
+				25, 7, new String[] {"Burger F*ck yeah."}, "2.25"));
 	}
 
 	public void showFood(Food food) {
 		Intent myIntent = new Intent(Feed.this, ItemActivity.class);
 		Bundle bundle = new Bundle();
-		bundle.putSerializable("value", food);
+		bundle.putSerializable("food", food);
 		Feed.this.startActivity(myIntent);
 	}
 }
