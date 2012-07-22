@@ -298,15 +298,39 @@ public class Feed extends Activity {
 
 		// add submit order button
 		Button submitOrder = new Button(this);
-		submitOrder.setText("Submit Order");
+		submitOrder.setText("View Order");
 		submitOrder.setGravity(Gravity.CENTER | Gravity.BOTTOM);
 		submitOrder.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
 				AlertDialog.Builder done = new AlertDialog.Builder(Feed.this);
+				final LinearLayout item_layout = new LinearLayout(Feed.this);
+				item_layout.setOrientation(LinearLayout.VERTICAL);
+				for (int i=0; i<order.size(); i++){
+					final Food food = order.get(i);
+					final LinearLayout this_layout = new LinearLayout(Feed.this);
+					this_layout.setOrientation(LinearLayout.HORIZONTAL);
+					TextView item_description = new TextView(Feed.this);
+					item_description.setText(food.title);
+					item_description.setTextSize(24);
+					Button delete = new Button(Feed.this);
+					delete.setBackgroundResource(R.drawable.x);
+					delete.setOnClickListener(new OnClickListener(){
 
-				done.setTitle("Submit Order");
-				done.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(View arg0) {
+							order.remove(food);
+							item_layout.removeView(this_layout);
+						}
+						
+					});
+					this_layout.addView(delete);
+					this_layout.addView(item_description);
+					item_layout.addView(this_layout);
+				}
+				done.setView(item_layout);
+				done.setTitle("View Order");
+				done.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
