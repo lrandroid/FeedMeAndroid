@@ -163,6 +163,7 @@ public class HTTPClient {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println(bitmap[0]);
 		return bitmap[0];
 	}
 

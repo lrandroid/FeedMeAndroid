@@ -26,7 +26,7 @@ public class Food implements Serializable {
 		this.title = title;
 		this.description = description;
 		try {
-			this.image = loadBitmap(image_url);
+			this.image = HTTPClient.downloadFile(image_url);
 		} catch (Exception e) {
 		}
 		this.num_positive = num_positive;
