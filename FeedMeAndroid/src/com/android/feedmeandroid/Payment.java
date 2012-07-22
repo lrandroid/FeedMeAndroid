@@ -8,14 +8,19 @@ import java.util.Map;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -50,7 +55,10 @@ public class Payment extends Activity {
 
 		final DecimalFormat rounding = new DecimalFormat("#0.00");
 
+		final int[] isThumpedUps = new int[Feed.order.size()];
+
 		for (int i = 0; i < Feed.order.size(); i++) {
+			final int index = i;
 			final Food food = Feed.order.get(i);
 			final LinearLayout this_layout = new LinearLayout(Payment.this);
 			this_layout.setOrientation(LinearLayout.HORIZONTAL);
@@ -82,7 +90,7 @@ public class Payment extends Activity {
 					if (isChecked) {
 						downvote.setChecked(false);
 					}
-
+					isThumpedUps[index] = isChecked ? 1 : -1;
 				}
 
 			});
@@ -95,7 +103,7 @@ public class Payment extends Activity {
 					if (isChecked) {
 						upvote.setChecked(false);
 					}
-
+					isThumpedUps[index] = isChecked ? 1 : -1;
 				}
 
 			});
@@ -110,7 +118,7 @@ public class Payment extends Activity {
 		}
 		subtotal.setText("Subtotal: $" + rounding.format(sum));
 		double tax_cost = sum * .0725;
-		double total_cost = sum + tax_cost;
+		final double total_cost = sum + tax_cost;
 		tax.setText("Tax: $" + rounding.format(tax_cost));
 		total.setText("Total: $" + rounding.format(total_cost));
 
@@ -129,16 +137,112 @@ public class Payment extends Activity {
 		paynow.setTextColor(Color.WHITE);
 		paynow.setTypeface(null, Typeface.BOLD);
 		paynow.setBackgroundResource(R.drawable.candidate_first_dark);
+		paynow.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				AlertDialog.Builder done = new AlertDialog.Builder(Payment.this);
+				final LinearLayout item_layout = new LinearLayout(Payment.this);
+				item_layout.setOrientation(LinearLayout.VERTICAL);
+				LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+						LinearLayout.LayoutParams.FILL_PARENT,
+						LinearLayout.LayoutParams.WRAP_CONTENT);
+				layoutParams.height = 50;
+				layoutParams.width = 50;
+				layoutParams.setMargins(20, 15, 20, 20);
+				
+				final LinearLayout row_1 = new LinearLayout(Payment.this);
+				final LinearLayout row_2 = new LinearLayout(Payment.this);
+				final LinearLayout row_3 = new LinearLayout(Payment.this);
+				row_1.setOrientation(LinearLayout.HORIZONTAL);
+				row_2.setOrientation(LinearLayout.HORIZONTAL);
+				row_3.setOrientation(LinearLayout.HORIZONTAL);
+				
+				final TextView cc_num_input = new TextView(Payment.this);
+				cc_num_input.setTextSize(18);
+				cc_num_input.setText("Credit Card: ");
+				cc_num_input.setTextColor(Color.WHITE);
+				final TextView exp_month_input = new TextView(Payment.this);
+				exp_month_input.setTextSize(18);
+				exp_month_input.setText("Exp Month:  ");
+				exp_month_input.setTextColor(Color.WHITE);
+				final TextView exp_year_input = new TextView(Payment.this);
+				exp_year_input.setTextSize(18);
+				exp_year_input.setText("Exp Year:    ");
+				exp_year_input.setTextColor(Color.WHITE);
+				final EditText cc_number= new EditText(Payment.this);
+				cc_number.setText("4242424242424242",null);
+				final EditText exp_month = new EditText(Payment.this);
+				exp_month.setText("12",null);
+				final EditText exp_year = new EditText(Payment.this);
+				exp_year.setText("2012",null);
+				
+				row_1.addView(cc_num_input,Feed.width/3,100);
+				row_1.addView(cc_number);
+				row_2.addView(exp_month_input,Feed.width/3,100);
+				row_2.addView(exp_month);
+				row_3.addView(exp_year_input,Feed.width/3,100);
+				row_3.addView(exp_year);
+				
+				item_layout.addView(row_1);
+				item_layout.addView(row_2);
+				item_layout.addView(row_3);
+
+				ScrollView scroll = new ScrollView(Payment.this);
+				scroll.addView(item_layout);
+				done.setView(scroll);
+				done.setTitle("Confirm Payment");
+				done.setPositiveButton("Submit",
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								//make payment
+								makePayment(total_cost, cc_number.getText().toString(),
+														Integer.parseInt(exp_month.getText().toString()),
+														Integer.parseInt(exp_year.getText().toString()));
+								
+								//submit reviews
+								for (int i = 0; i < Feed.order.size(); i++) {
+									final Food food = Feed.order.get(i);
+									if(isThumpedUps[i] == -1) {
+										submitReview(food.id, false);
+									}
+									else if(isThumpedUps[i] == 1) {
+										submitReview(food.id, true);
+									}
+								}
+							}
+
+						});
+				done.setNegativeButton("Cancel",
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								dialog.cancel();
+							}
+
+						});
+				done.setCancelable(false);
+				done.show();
+			}
+
+		});
 		full_layout.addView(paynow, Feed.buttonParams);
 		setContentView(full_layout);
 	}
 
-	public static boolean makePayment(final double amount, final String cc_number, final int exp_month, final int exp_year) {
+	public static boolean makePayment(final double amount,
+			final String cc_number, final int exp_month, final int exp_year) {
 		final boolean[] ret = new boolean[1];
 		ret[0] = false;
 		Thread thread = new Thread(new Runnable() {
 			public void run() {
 				try {
+					Log.v("payment","paytest1");
 					Stripe.apiKey = "L8px8dWKTJmab3qzAuq7Vh4hwp3sXbK4";
 					Map<String, Object> chargeMap = new HashMap<String, Object>();
 					chargeMap.put("amount", amount);
@@ -150,6 +254,7 @@ public class Payment extends Activity {
 					chargeMap.put("card", cardMap);
 					Charge charge = Charge.create(chargeMap);
 					ret[0] = true;
+					Log.v("payment","paytest2");
 				} catch (StripeException e) {
 					e.printStackTrace();
 				}
@@ -162,7 +267,7 @@ public class Payment extends Activity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return ret[0];
 
 	}
