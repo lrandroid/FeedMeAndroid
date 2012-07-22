@@ -101,7 +101,7 @@ public class ItemActivity extends Activity {
 			
 		});
 		layout.addView(add);
-		TextView comments_header = new TextView(this);
+		/*TextView comments_header = new TextView(this);
 		comments_header.setText("Reviews:");
 		comments_header.setTypeface(null, Typeface.BOLD);
 		comments_header.setTextSize(22);
@@ -112,7 +112,7 @@ public class ItemActivity extends Activity {
 			comments_view[i].setText(this_food.comment[i].trim());
 			comments_view[i].setBackgroundResource(R.drawable.guide_click_botton_bg);
 			layout.addView(comments_view[i]);
-		}
+		}*/
 		ScrollView scroll = new ScrollView(this);
 		scroll.addView(layout);
 		setContentView(scroll);

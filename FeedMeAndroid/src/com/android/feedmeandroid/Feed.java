@@ -1,5 +1,6 @@
 package com.android.feedmeandroid;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import org.json.JSONObject;
@@ -53,10 +54,9 @@ public class Feed extends Activity {
 		Point size = new Point();
 		width = display.getWidth();
 		height = display.getHeight();
-		if(order == null) {
+		if (order == null) {
 			order = new Order();
 		}
-		
 
 		// set facebook access token
 		mPrefs = getSharedPreferences(Constants.SHARED_PREFS_NAME, 0);
@@ -309,50 +309,82 @@ public class Feed extends Activity {
 				LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
 						LinearLayout.LayoutParams.FILL_PARENT,
 						LinearLayout.LayoutParams.WRAP_CONTENT);
-				layoutParams.height=50;
-				layoutParams.width=50;
+				layoutParams.height = 50;
+				layoutParams.width = 50;
 				layoutParams.setMargins(20, 15, 20, 20);
-				for (int i=0; i<order.size(); i++){
+				double sum = 0;
+				final TextView subtotal = new TextView(Feed.this);
+				final TextView tax = new TextView(Feed.this);
+				final TextView total = new TextView(Feed.this);
+				final DecimalFormat rounding = new DecimalFormat("#0.00");
+
+				for (int i = 0; i < order.size(); i++) {
 					final Food food = order.get(i);
 					final LinearLayout this_layout = new LinearLayout(Feed.this);
 					this_layout.setOrientation(LinearLayout.HORIZONTAL);
 					TextView item_description = new TextView(Feed.this);
-					item_description.setText(food.title);
+					item_description.setText(food.title + "... " + food.price);
+					sum += Double.parseDouble(food.price);
 					item_description.setTextSize(24);
 					Button delete = new Button(Feed.this);
 					delete.setBackgroundResource(R.drawable.x);
-					delete.setOnClickListener(new OnClickListener(){
+					delete.setOnClickListener(new OnClickListener() {
 
 						@Override
 						public void onClick(View arg0) {
 							order.remove(food);
 							item_layout.removeView(this_layout);
+							double sum = 0;
+							for (int n = 0; n < order.size(); n++) {
+								sum += Double.parseDouble(order.get(n).price);
+							}
+							subtotal.setText("Subtotal: $"+rounding.format(sum));
+							double tax_cost = sum * .0725;
+							tax.setText("Tax: $" + rounding.format(tax_cost));
+							double total_cost = sum + tax_cost;
+							total.setText("Total: $"
+									+ rounding.format(total_cost));
+
 						}
-						
+
 					});
 					this_layout.addView(delete, layoutParams);
 					this_layout.addView(item_description);
 					item_layout.addView(this_layout);
 				}
+				subtotal.setText("Subtotal: $" + rounding.format(sum));
+				double tax_cost = sum * .0725;
+				double total_cost = sum + tax_cost;
+				tax.setText("Tax: $" + rounding.format(tax_cost));
+				total.setText("total: $" + rounding.format(total_cost));
+
+				item_layout.addView(subtotal);
+				item_layout.addView(tax);
+				item_layout.addView(total);
+
 				done.setView(item_layout);
 				done.setTitle("View Order");
-				done.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+				done.setPositiveButton("Submit",
+						new DialogInterface.OnClickListener() {
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						order.submitOrder();
-						dialog.cancel();
-					}
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								order.submitOrder();
+								dialog.cancel();
+							}
 
-				});
-				done.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+						});
+				done.setNegativeButton("Cancel",
+						new DialogInterface.OnClickListener() {
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.cancel();
-					}
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								dialog.cancel();
+							}
 
-				});
+						});
 				done.setCancelable(false);
 				done.show();
 			}
@@ -360,8 +392,8 @@ public class Feed extends Activity {
 		});
 
 		// add both elements to full menu
-		
-		fullMenu.addView(scroll, width, 4*height/5);
+
+		fullMenu.addView(scroll, width, 4 * height / 5);
 		fullMenu.addView(submitOrder);
 		setContentView(fullMenu);
 
