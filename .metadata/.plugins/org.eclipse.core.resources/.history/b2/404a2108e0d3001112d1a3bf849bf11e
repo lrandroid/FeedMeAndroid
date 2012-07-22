@@ -30,7 +30,7 @@ public class Order {
 		for(int i = 0; i < mOrder.size(); i++) {
 			order_ids += Integer.toString(mOrder.get(i).id);
 			if(i != mOrder.size() - 1) {
-				order_ids += ", ";
+				order_ids += ",";
 			}
 		}
 		
@@ -42,8 +42,7 @@ public class Order {
 					
 					JSONObject webRequest = new JSONObject();
 					webRequest.put("user_id", Feed.fb_id);
-					webRequest.put("restaurant_id", "1");
-					webRequest.put("order", thread_order_ids);
+					webRequest.put("order", Arrays.toString(thread_order_ids));
 					Log.v("request", webRequest.toString());
 					ArrayList<JSONObject> response = HTTPClient
 							.SendHttpPost(

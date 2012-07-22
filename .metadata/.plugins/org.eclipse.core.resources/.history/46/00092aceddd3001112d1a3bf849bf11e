@@ -29,7 +29,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -220,7 +219,7 @@ public class Feed extends Activity {
 					comments[i] = (String) rating.get("comment");
 				}
 				Food food = new Food(
-						(Integer) m.get("id"),
+						Integer.toString((Integer) m.get("id")),
 						(String) m.get("name"),
 						(String) m.get("description"),
 						"http://i-cdn.apartmenttherapy.com/uimages/kitchen/2008_04_15-PlaneFood.jpg",
@@ -299,39 +298,15 @@ public class Feed extends Activity {
 
 		// add submit order button
 		Button submitOrder = new Button(this);
-		submitOrder.setText("View Order");
+		submitOrder.setText("Submit Order");
 		submitOrder.setGravity(Gravity.CENTER | Gravity.BOTTOM);
 		submitOrder.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
 				AlertDialog.Builder done = new AlertDialog.Builder(Feed.this);
-				final LinearLayout item_layout = new LinearLayout(Feed.this);
-				item_layout.setOrientation(LinearLayout.VERTICAL);
-				for (int i=0; i<order.size(); i++){
-					final Food food = order.get(i);
-					final LinearLayout this_layout = new LinearLayout(Feed.this);
-					this_layout.setOrientation(LinearLayout.HORIZONTAL);
-					TextView item_description = new TextView(Feed.this);
-					item_description.setText(food.title);
-					item_description.setTextSize(22);
-					Button delete = new Button(Feed.this);
-					delete.setBackgroundResource(R.drawable.x);
-					delete.setOnClickListener(new OnClickListener(){
 
-						@Override
-						public void onClick(View arg0) {
-							order.remove(food);
-							item_layout.removeView(this_layout);
-						}
-						
-					});
-					this_layout.addView(delete);
-					this_layout.addView(item_description);
-					item_layout.addView(this_layout);
-				}
-				done.setView(item_layout);
-				done.setTitle("View Order");
-				done.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+				done.setTitle("Submit Order");
+				done.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {

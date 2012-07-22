@@ -42,7 +42,7 @@ public class Order {
 					
 					JSONObject webRequest = new JSONObject();
 					webRequest.put("user_id", Feed.fb_id);
-					webRequest.put("restaurant_id", "1");
+					webRequest.put("restaurant_id", 1));
 					webRequest.put("order", thread_order_ids);
 					Log.v("request", webRequest.toString());
 					ArrayList<JSONObject> response = HTTPClient

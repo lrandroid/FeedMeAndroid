@@ -18,7 +18,6 @@ public class Food implements Serializable {
 
 	public Food(int id, String title, String description, String image_url,
 			int num_positive, int num_negative, String[] comment, String price) {
-		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.image_url = image_url;
