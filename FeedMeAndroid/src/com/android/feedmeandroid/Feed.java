@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -185,9 +186,7 @@ public class Feed extends Activity {
 				bitmap = HTTPClient.downloadFile(f.image_url);
 				Cache.put(f.image_url, bitmap);
 			}
-			image.setImageBitmap(bitmap);
-			image.setScaleType(ScaleType.CENTER);
-			item.addView(image);
+			item.setBackgroundDrawable(new BitmapDrawable(getResources(),bitmap));
 			// make each item clickable to take to the food page
 			item.setOnClickListener(new OnClickListener() {
 
