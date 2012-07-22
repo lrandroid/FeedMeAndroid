@@ -2,6 +2,7 @@ package com.android.feedmeandroid;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.json.JSONObject;
 
@@ -16,6 +17,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
@@ -27,9 +29,11 @@ import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -43,7 +47,9 @@ public class Feed extends Activity {
 	Facebook facebook = new Facebook("409981355705862");
 	private SharedPreferences mPrefs;
 	static Order order;
-	static boolean hasOrdered = false; //checks if user has ordered already, and takes them to payment page if they have
+	static boolean hasOrdered = false; // checks if user has ordered already,
+										// and takes them to payment page if
+										// they have
 	static String fb_id = "";
 	static int width;
 	static int height;
@@ -56,16 +62,16 @@ public class Feed extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setTitle("FeedMeAndroid");
-		//take to payment page if they've already ordered
-		if(hasOrdered && InRestaurant.isDoneEating) {
-            //launch "payments page"
-            Intent myIntent = new Intent(Feed.this, Payment.class);
-            Feed.this.startActivity(myIntent);
-		} else if (hasOrdered){
+		// take to payment page if they've already ordered
+		if (hasOrdered && InRestaurant.isDoneEating) {
+			// launch "payments page"
+			Intent myIntent = new Intent(Feed.this, Payment.class);
+			Feed.this.startActivity(myIntent);
+		} else if (hasOrdered) {
 			Intent myIntent = new Intent(Feed.this, InRestaurant.class);
-            Feed.this.startActivity(myIntent);
+			Feed.this.startActivity(myIntent);
 		}
-		
+
 		buttonParams.gravity = Gravity.CENTER_HORIZONTAL;
 		Display display = getWindowManager().getDefaultDisplay();
 		Point size = new Point();
@@ -129,14 +135,22 @@ public class Feed extends Activity {
 	public void onResume() {
 		super.onResume();
 		facebook.extendAccessTokenIfNeeded(this, null);
-		if(hasOrdered) {
-            //launch "payments page"
-            Intent myIntent = new Intent(Feed.this, Payment.class);
-            Feed.this.startActivity(myIntent);
+		if (hasOrdered) {
+			// launch "payments page"
+			Intent myIntent = new Intent(Feed.this, Payment.class);
+			Feed.this.startActivity(myIntent);
 		}
-		if (fullMenu == null || fullMenu.getChildCount()==0)
+		if (fullMenu == null || fullMenu.getChildCount() == 0)
 			showMenu();
 	}
+
+	static String[] urls = new String[] {
+			"http://i-cdn.apartmenttherapy.com/uimages/kitchen/2008_04_15-PlaneFood.jpg",
+			"http://aht.seriouseats.com/images/20110228-in-n-out-secret-menu%20-%2014.jpg",
+			"http://img.foodnetwork.com/FOOD/2011/04/12/FN_Neely-BBQ-Chicken_s4x3_lg.jpg",
+			"http://www.aiellospizza.com/pizza-page.jpg",
+			"http://www.spokesmanreview.com/media/photos/20080416_pasta.jpg",
+			"http://4.bp.blogspot.com/_UIXOn06Pz70/TTtWdtLED4I/AAAAAAAALKU/OLfdrbMZgbU/s800/Thai%2BGrilled%2BChicken%2BSatay%2BSalad%2B1%2B800.jpg", };
 
 	public void showMenu() {
 		// query facebook for basic user info
@@ -201,61 +215,47 @@ public class Feed extends Activity {
 		ArrayList<Food> menu = new ArrayList<Food>();
 
 		Log.v("foodstart", Integer.toString(menus.size()));
+		int counter = 0;
 		for (JSONObject m : menus) {
 			try {
-				/*COMMENTED OUT REVIEWS
-				// need to grab comments with JSON request
-				final ArrayList<JSONObject> ratings = new ArrayList<JSONObject>();
-				Log.v("foodloop", Integer.toString(menus.size()));
-				Thread thread2 = new Thread(new Runnable() {
-					public void run() {
-						try {
-
-							// query web client for comments based on restaurant
-							// id
-							JSONObject webRequest = new JSONObject();
-							String res_id = Session.getRestaurant();
-							webRequest.put("restaurant_id", "1");
-							Log.v("request", webRequest.toString());
-							ArrayList<JSONObject> tempComments = HTTPClient
-									.SendHttpPost(
-											Constants.WEB_CLIENT_REST_URL_COMMENTS,
-											webRequest);
-							ratings.addAll(tempComments);
-						} catch (Exception e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				});
-
-				thread2.start();
-				try {
-					thread2.join();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-				String[] comments = new String[ratings.size()];
-				for (int i = 0; i < ratings.size(); i++) {
-					JSONObject rating = ratings.get(i);
-					comments[i] = (String) rating.get("comment");
-				}*/
-				Food food = new Food(
-						(Integer) m.get("id"),
-						(String) m.get("name"),
-						(String) m.get("description"),
-						"http://i-cdn.apartmenttherapy.com/uimages/kitchen/2008_04_15-PlaneFood.jpg",
-						(Integer) m.get("upvotes"), (Integer) m
-								.get("downvotes"), (String) m
-								.get("price"));
+				/*
+				 * COMMENTED OUT REVIEWS // need to grab comments with JSON
+				 * request final ArrayList<JSONObject> ratings = new
+				 * ArrayList<JSONObject>(); Log.v("foodloop",
+				 * Integer.toString(menus.size())); Thread thread2 = new
+				 * Thread(new Runnable() { public void run() { try {
+				 * 
+				 * // query web client for comments based on restaurant // id
+				 * JSONObject webRequest = new JSONObject(); String res_id =
+				 * Session.getRestaurant(); webRequest.put("restaurant_id",
+				 * "1"); Log.v("request", webRequest.toString());
+				 * ArrayList<JSONObject> tempComments = HTTPClient
+				 * .SendHttpPost( Constants.WEB_CLIENT_REST_URL_COMMENTS,
+				 * webRequest); ratings.addAll(tempComments); } catch (Exception
+				 * e) { // TODO Auto-generated catch block e.printStackTrace();
+				 * } } });
+				 * 
+				 * thread2.start(); try { thread2.join(); } catch
+				 * (InterruptedException e) { // TODO Auto-generated catch block
+				 * e.printStackTrace(); }
+				 * 
+				 * String[] comments = new String[ratings.size()]; for (int i =
+				 * 0; i < ratings.size(); i++) { JSONObject rating =
+				 * ratings.get(i); comments[i] = (String) rating.get("comment");
+				 * }
+				 */
+				Food food = new Food((Integer) m.get("id"),
+						(String) m.get("name"), (String) m.get("description"),
+						urls[counter % urls.length],
+						(Integer) m.get("upvotes"),
+						(Integer) m.get("downvotes"), (String) m.get("price"));
 				menu.add(food);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			counter++;
 		}
-
+		Collections.sort(menu, new Ranker());
 		// put together full menu plus submit order button
 		fullMenu = new LinearLayout(this);
 		fullMenu.setOrientation(LinearLayout.VERTICAL);
@@ -272,6 +272,7 @@ public class Feed extends Activity {
 			LinearLayout item = new LinearLayout(this);
 			item.setOrientation(LinearLayout.VERTICAL);
 			TextView title_and_price = new TextView(this);
+			title_and_price.setTextSize(20);
 			title_and_price.setText(f.title + "... " + f.price);
 			title_and_price
 					.setBackgroundResource(R.drawable.guide_click_botton_bg);
@@ -303,7 +304,36 @@ public class Feed extends Activity {
 			}
 			BitmapDrawable bg = new BitmapDrawable(getResources(), bitmap);
 			item.setBackgroundDrawable(bg);
+			RelativeLayout rLayout = new RelativeLayout(this);
+			LayoutParams rlParams = new LayoutParams(LayoutParams.FILL_PARENT,
+					LayoutParams.FILL_PARENT);
+			rLayout.setLayoutParams(rlParams);
+			image.setLayoutParams(rlParams);
+			RelativeLayout.LayoutParams tParams = new RelativeLayout.LayoutParams(
+					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			tParams.addRule(RelativeLayout.CENTER_HORIZONTAL,
+					RelativeLayout.TRUE);
+			tParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,
+					RelativeLayout.TRUE);
+			TextView positive = new TextView(Feed.this);
+			positive.setText(" +" + f.num_positive);
+			positive.setTextSize(22);
+			positive.setTypeface(null, Typeface.BOLD);
 
+			positive.setTextColor(Color.rgb(00, 12 * 16, 00));
+			TextView negative = new TextView(Feed.this);
+			negative.setText(" -" + f.num_negative);
+			negative.setTextSize(22);
+			negative.setTypeface(null, Typeface.BOLD);
+
+			negative.setTextColor(Color.RED);
+			LinearLayout ratings_layout = new LinearLayout(Feed.this);
+			ratings_layout.setOrientation(LinearLayout.VERTICAL);
+			ratings_layout.addView(positive);
+			ratings_layout.addView(negative);
+			// ratings_layout.setBackgroundResource(R.drawable.background);
+			tParams.height = 135;
+			item.addView(ratings_layout, tParams);
 			// make each item clickable to take to the food page
 			item.setOnClickListener(new OnClickListener() {
 
@@ -368,7 +398,8 @@ public class Feed extends Activity {
 							for (int n = 0; n < order.size(); n++) {
 								sum += Double.parseDouble(order.get(n).price);
 							}
-							subtotal.setText("Subtotal: $"+rounding.format(sum));
+							subtotal.setText("Subtotal: $"
+									+ rounding.format(sum));
 							double tax_cost = sum * .0725;
 							tax.setText("Tax: $" + rounding.format(tax_cost));
 							double total_cost = sum + tax_cost;
@@ -389,7 +420,8 @@ public class Feed extends Activity {
 				total.setText("Total: $" + rounding.format(total_cost));
 				LinearLayout cost_layout = new LinearLayout(Feed.this);
 				cost_layout.setOrientation(LinearLayout.VERTICAL);
-				cost_layout.setBackgroundResource(R.drawable.guide_click_botton_bg);
+				cost_layout
+						.setBackgroundResource(R.drawable.guide_click_botton_bg);
 				cost_layout.addView(subtotal);
 				cost_layout.addView(tax);
 				cost_layout.addView(total);
@@ -406,10 +438,11 @@ public class Feed extends Activity {
 									int which) {
 								order.submitOrder();
 								hasOrdered = true;
-								
-			                    //launch "payments page"
-			                    Intent myIntent = new Intent(Feed.this, InRestaurant.class);
-			                    Feed.this.startActivity(myIntent);
+
+								// launch "payments page"
+								Intent myIntent = new Intent(Feed.this,
+										InRestaurant.class);
+								Feed.this.startActivity(myIntent);
 								dialog.cancel();
 							}
 

@@ -52,23 +52,24 @@ public class ItemActivity extends Activity {
 		tParams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
 		tParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
 		LinearLayout rating_layout = new LinearLayout(this);
-		rating_layout.setOrientation(LinearLayout.HORIZONTAL);
+		rating_layout.setOrientation(LinearLayout.VERTICAL);
 		TextView text_p = new TextView(this);
 		text_p.setText("+"+this_food.num_positive);
-		text_p.setTextColor(Color.GREEN);
+		text_p.setTextColor(Color.rgb(00,12*16,00));
 		text_p.setTypeface(Typeface.DEFAULT_BOLD);
 		text_p.setLayoutParams(tParams);
-		text_p.setHeight(50);
-		text_p.setPadding(30, 0, 50, 0);
+		text_p.setTextSize(20);
+		text_p.setPadding(50, 0, 50, 0);
 		TextView text_n = new TextView(this);
 		text_n.setText("-"+this_food.num_negative);
 		text_n.setTextColor(Color.RED);
 		text_n.setTypeface(Typeface.DEFAULT_BOLD);
 		text_n.setLayoutParams(tParams);
-		text_n.setHeight(50);
+		text_n.setTextSize(20);
+		text_n.setPadding(50, 0, 50, 0);
 		rating_layout.addView(text_p);
 		rating_layout.addView(text_n);
-		rating_layout.setBackgroundResource(R.drawable.accent_bg);
+		rating_layout.setBackgroundResource(R.drawable.candidate_feedback_background);
 		rating_layout.setLayoutParams(new android.view.ViewGroup.LayoutParams(
 	            android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
 	            android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -76,7 +77,6 @@ public class ItemActivity extends Activity {
 		rLayout.addView(image);
 		rLayout.addView(rating_layout);
 		LayoutParams params = rating_layout.getLayoutParams();
-		params.height = 65;
 		toplayout.addView(rLayout, new android.view.ViewGroup.LayoutParams(
 	            android.view.ViewGroup.LayoutParams.FILL_PARENT,
 	            android.view.ViewGroup.LayoutParams.WRAP_CONTENT));

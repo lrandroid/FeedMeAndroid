@@ -34,7 +34,7 @@ public class InRestaurant extends Activity {
 		Resources r = getResources();
 		Drawable[] layers = new Drawable[2];
 		layers[0] = r.getDrawable(R.drawable.waitress_state);
-		layers[1] = r.getDrawable(R.drawable.accent_bg);
+		layers[1] = r.getDrawable(R.drawable.guide_click_botton_bg);
 		LayerDrawable layerDrawable = new LayerDrawable(layers);
 		get_assistance.setBackgroundDrawable(layerDrawable);
 		get_assistance.setOnClickListener(new OnClickListener() {
