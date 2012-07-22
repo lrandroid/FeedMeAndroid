@@ -192,10 +192,6 @@ public class Feed extends Activity {
 	public void showFood(Food food) {
 		Intent myIntent = new Intent(Feed.this, ItemActivity.class);
 		myIntent.putExtra("food", food);
-		Log.v("asdf", "oncreate1");
-
 		Feed.this.startActivity(myIntent);
-		Log.v("asdf", "oncreate2");
-
 	}
 }
