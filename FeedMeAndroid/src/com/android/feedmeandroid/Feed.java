@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -185,7 +186,7 @@ public class Feed extends Activity {
 				Cache.put(f.image_url, bitmap);
 			}
 			image.setImageBitmap(bitmap);
-			image.setCropToPadding(true);
+			image.setScaleType(ScaleType.CENTER);
 			item.addView(image);
 			// make each item clickable to take to the food page
 			item.setOnClickListener(new OnClickListener() {
