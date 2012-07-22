@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.facebook.android.DialogError;
@@ -174,7 +175,8 @@ public class Feed extends Activity {
 			title_and_price.setText(f.title + " " + f.price);
 			item.addView(title_and_price);
 			ImageView image = new ImageView(this);
-			image.setImageBitmap(f.image);
+			image.setImageBitmap(HTTPClient.downloadFile(f.image_url));
+			item.addView(image);
 
 			// make each item clickable to take to the food page
 			item.setOnClickListener(new OnClickListener() {
@@ -188,7 +190,9 @@ public class Feed extends Activity {
 			linear.addView(item);
 		}
 
-		setContentView(linear);
+		ScrollView scroll = new ScrollView(this);
+		scroll.addView(linear);
+		setContentView(scroll);
 
 	}
 
