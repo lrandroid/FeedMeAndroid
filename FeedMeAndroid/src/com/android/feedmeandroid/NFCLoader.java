@@ -68,6 +68,10 @@ public class NFCLoader extends Activity {
 							Feed.order.clear();
 						else
 							Feed.order = new Order();
+					} else {
+						Feed.hasOrdered = false;
+						InRestaurant.isDoneEating = false;
+						Feed.fullMenu = null;
 					}
 
 					NFCLoader.this.startActivity(myIntent);

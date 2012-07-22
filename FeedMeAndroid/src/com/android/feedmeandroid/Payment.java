@@ -161,15 +161,12 @@ public class Payment extends Activity {
 				final TextView cc_num_input = new TextView(Payment.this);
 				cc_num_input.setTextSize(18);
 				cc_num_input.setText("Credit Card: ");
-				cc_num_input.setTextColor(Color.WHITE);
 				final TextView exp_month_input = new TextView(Payment.this);
 				exp_month_input.setTextSize(18);
 				exp_month_input.setText("Exp Month:  ");
-				exp_month_input.setTextColor(Color.WHITE);
 				final TextView exp_year_input = new TextView(Payment.this);
 				exp_year_input.setTextSize(18);
 				exp_year_input.setText("Exp Year:    ");
-				exp_year_input.setTextColor(Color.WHITE);
 				final EditText cc_number= new EditText(Payment.this);
 				cc_number.setText("4242424242424242",null);
 				final EditText exp_month = new EditText(Payment.this);

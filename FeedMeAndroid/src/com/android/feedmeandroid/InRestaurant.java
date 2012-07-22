@@ -1,6 +1,8 @@
 package com.android.feedmeandroid;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -18,7 +20,7 @@ public class InRestaurant extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (isDoneEating){
+		if (isDoneEating) {
 			Intent myIntent = new Intent(InRestaurant.this, Payment.class);
 			InRestaurant.this.startActivity(myIntent);
 		}
@@ -35,45 +37,69 @@ public class InRestaurant extends Activity {
 		layers[1] = r.getDrawable(R.drawable.accent_bg);
 		LayerDrawable layerDrawable = new LayerDrawable(layers);
 		get_assistance.setBackgroundDrawable(layerDrawable);
-		get_assistance.setOnClickListener(new OnClickListener(){
+		get_assistance.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				callWaiter();
+				AlertDialog.Builder done = new AlertDialog.Builder(
+						InRestaurant.this);
+				done.setTitle("Request waiter?");
+				done.setPositiveButton("Yes",
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								callWaiter();
+								dialog.cancel();
+							}
+
+						});
+				done.setNegativeButton("Cancel",
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								dialog.cancel();
+							}
+
+						});
+				done.show();
 			}
-			
+
 		});
-		layout.addView(get_assistance, Feed.width, 3*Feed.height/4);
+		layout.addView(get_assistance, Feed.width, 3 * Feed.height / 4);
 		Button gotopay = new Button(this);
 		gotopay.setText("Done? Pay now...");
 		gotopay.setTextColor(Color.WHITE);
 		gotopay.setBackgroundResource(R.drawable.candidate_first_dark);
 		gotopay.setLayoutParams(Feed.buttonParams);
-		gotopay.setOnClickListener(new OnClickListener(){
+		gotopay.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				isDoneEating=true;
+				isDoneEating = true;
 				Intent myIntent = new Intent(InRestaurant.this, Payment.class);
 				InRestaurant.this.startActivity(myIntent);
-				
+
 			}
-			
+
 		});
 		layout.addView(gotopay);
 		setContentView(layout);
 	}
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();
-		if (isDoneEating){
+		if (isDoneEating) {
 			Intent myIntent = new Intent(InRestaurant.this, Payment.class);
 			InRestaurant.this.startActivity(myIntent);
 		}
 	}
-	
-	public static void callWaiter(){
-		
+
+	public static void callWaiter() {
+
 	}
 }
