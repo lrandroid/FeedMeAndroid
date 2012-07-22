@@ -25,7 +25,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -39,6 +38,7 @@ public class Feed extends Activity {
 	Facebook facebook = new Facebook("409981355705862");
 	private SharedPreferences mPrefs;
 	static Order order;
+	static String fb_id = "";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -124,11 +124,11 @@ public class Feed extends Activity {
 					// 1) construct user json object to pass to web client
 					String first_name = json_user_info.getString("first_name");
 					String last_name = json_user_info.getString("last_name");
-					String facebook_id = json_user_info.getString("id");
+					fb_id = json_user_info.getString("id");
 					JSONObject pass_user_info = new JSONObject();
 					pass_user_info.put("first_name", first_name);
 					pass_user_info.put("last_name", last_name);
-					pass_user_info.put("facebook_id", facebook_id);
+					pass_user_info.put("facebook_id", fb_id);
 
 					JSONObject webRequest = new JSONObject();
 					String res_id = Session.getRestaurant();
@@ -208,7 +208,7 @@ public class Feed extends Activity {
 						Integer.toString((Integer) m.get("id")),
 						(String) m.get("name"),
 						(String) m.get("description"),
-						"http://www.hdwallpapersarena.com/wp-content/uploads/2012/07/Fast-Food-HD-Wallpapers-and-Images-4.jpg",
+						"http://i-cdn.apartmenttherapy.com/uimages/kitchen/2008_04_15-PlaneFood.jpg",
 						(Integer) m.get("upvotes"), (Integer) m
 								.get("downvotes"), comments, (String) m
 								.get("price"));
@@ -224,9 +224,6 @@ public class Feed extends Activity {
 
 		LinearLayout items = new LinearLayout(this);
 		items.setOrientation(LinearLayout.VERTICAL);
-		TextView text = new TextView(this);
-		text.setText("welcome: " + name[0] + " " + name[1]);
-		items.addView(text);
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.FILL_PARENT,
 				LinearLayout.LayoutParams.WRAP_CONTENT);

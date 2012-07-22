@@ -71,22 +71,22 @@ public class ItemActivity extends Activity {
 		rLayout.addView(image);
 		rLayout.addView(rating_layout);
 		LayoutParams params = rating_layout.getLayoutParams();
-		params.height = 70;
+		params.height = 65;
 		layout.addView(rLayout);
 		TextView description_view = new TextView(this);
 		description_view.setText(this_food.description+"\n\n");
 		layout.addView(description_view);
 		TextView comments_header = new TextView(this);
-		comments_header.setText("Reviews");
-		comments_header.setTextScaleX(2);
+		comments_header.setText("Reviews:");
+		comments_header.setTypeface(null, Typeface.BOLD);
+		comments_header.setTextSize(22);
 		layout.addView(comments_header);
-		TextView comments_view = new TextView(this);
-		StringBuilder comments_builder = new StringBuilder();
+		/*TextView comments_view[] = new TextView[this_food.comment.length];
 		for (int i=0; i<this_food.comment.length; i++){
-			comments_builder.append(":"+this_food.comment[i].trim()+"\n\n");
-		}
-		comments_view.setText(comments_builder);
-		layout.addView(comments_view);
+			comments_view[i] = new TextView(this);
+			comments_view[i].setText(this_food.comment[i].trim());
+			layout.addView(comments_view[i]);
+		}*/
 		ScrollView scroll = new ScrollView(this);
 		scroll.addView(layout);
 		setContentView(scroll);
