@@ -28,8 +28,6 @@ public class Feed extends Activity {
 		mPrefs = getSharedPreferences(Constants.SHARED_PREFS_NAME, 0);
 		String access_token = mPrefs.getString("access_token", null);
 		long expires = mPrefs.getLong("access_expires", 0);
-		Log.v("test", access_token);
-		Log.v("test", Long.toBinaryString(expires));
 
 		if (access_token != null) {
 			facebook.setAccessToken(access_token);
