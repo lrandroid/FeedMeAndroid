@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -12,6 +14,7 @@ import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
@@ -19,6 +22,7 @@ import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -39,14 +43,20 @@ public class Feed extends Activity {
 	private SharedPreferences mPrefs;
 	static Order order;
 	static String fb_id = "";
+	static int width;
+	static int height;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		Display display = getWindowManager().getDefaultDisplay();
+		Point size = new Point();
+		width = display.getWidth();
+		height = display.getHeight();
 		if(order == null) {
 			order = new Order();
 		}
 		
-		super.onCreate(savedInstanceState);
 
 		// set facebook access token
 		mPrefs = getSharedPreferences(Constants.SHARED_PREFS_NAME, 0);
@@ -293,15 +303,36 @@ public class Feed extends Activity {
 		submitOrder.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
+				AlertDialog.Builder done = new AlertDialog.Builder(Feed.this);
 
+				done.setTitle("Submit Order");
+				done.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						order.submitOrder();
+						dialog.cancel();
+					}
+
+				});
+				done.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}
+
+				});
+				done.setCancelable(false);
+				done.show();
 			}
 
 		});
 
 		// add both elements to full menu
-		fullMenu.addView(scroll);
+		
+		fullMenu.addView(scroll, width, 4*height/5);
 		fullMenu.addView(submitOrder);
-
 		setContentView(fullMenu);
 
 	}

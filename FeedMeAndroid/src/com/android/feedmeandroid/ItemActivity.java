@@ -54,14 +54,14 @@ public class ItemActivity extends Activity {
 		LinearLayout rating_layout = new LinearLayout(this);
 		rating_layout.setOrientation(LinearLayout.HORIZONTAL);
 		TextView text_p = new TextView(this);
-		text_p.setText(this_food.num_positive + "+");
+		text_p.setText("+"+this_food.num_positive);
 		text_p.setTextColor(Color.GREEN);
 		text_p.setTypeface(Typeface.DEFAULT_BOLD);
 		text_p.setLayoutParams(tParams);
 		text_p.setHeight(50);
 		text_p.setPadding(30, 0, 50, 0);
 		TextView text_n = new TextView(this);
-		text_n.setText(this_food.num_negative + "-");
+		text_n.setText("-"+this_food.num_negative);
 		text_n.setTextColor(Color.RED);
 		text_n.setTypeface(Typeface.DEFAULT_BOLD);
 		text_n.setLayoutParams(tParams);
@@ -87,9 +87,16 @@ public class ItemActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
+				
 				Feed.order.addFood(this_food);
 				Toast.makeText(getApplicationContext(), "Item added!", 0).show();
-				finish();
+
+				new Thread(new Runnable(){
+					public void run(){
+						finish();
+					}
+				}).start();
+
 			}
 			
 		});
