@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -172,6 +173,8 @@ public class Feed extends Activity {
 			TextView title_and_price = new TextView(this);
 			title_and_price.setText(f.title + " " + f.price);
 			item.addView(title_and_price);
+			ImageView image = new ImageView(this);
+			image.setImageBitmap(f.image);
 
 			// make each item clickable to take to the food page
 			item.setOnClickListener(new OnClickListener() {
@@ -194,4 +197,5 @@ public class Feed extends Activity {
 		myIntent.putExtra("food", food);
 		Feed.this.startActivity(myIntent);
 	}
+
 }
