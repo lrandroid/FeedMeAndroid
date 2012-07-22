@@ -22,6 +22,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.zip.GZIPInputStream;
 
 import org.apache.http.Header;
@@ -39,9 +40,11 @@ import android.util.Log;
 public class HTTPClient {
 	private static final String TAG = "HttpClient";
 
-	public static JSONObject SendHttpPost(String URL, JSONObject jsonObjSend) {
+	public static ArrayList<JSONObject> SendHttpPost(String URL,
+			JSONObject jsonObjSend) {
 
 		try {
+			ArrayList<JSONObject> retArray = new ArrayList<JSONObject>();
 			DefaultHttpClient httpclient = new DefaultHttpClient();
 			HttpPost httpPostRequest = new HttpPost(URL);
 
@@ -77,18 +80,32 @@ public class HTTPClient {
 
 				// convert content stream to a String
 				String resultString = convertStreamToString(instream);
+				Log.i(TAG, resultString);
 				instream.close();
 				resultString = resultString.substring(1,
-						resultString.length() - 1); // remove wrapping "[" and
+						resultString.length() - 2); // remove wrapping "[" and
 													// "]"
-				Log.i(TAG, resultString);
-				// Transform the String into a JSONObject
-				JSONObject jsonObjRecv = new JSONObject(resultString);
-				// Raw DEBUG output of our received JSON object:
-				Log.i(TAG, "<JSONObject>\n" + jsonObjRecv.toString()
-						+ "\n</JSONObject>");
+				String[] results = resultString.split("\\},\\{");
+				for (int i = 0; i < results.length; i++) {
+					JSONObject jsonObjRecv;
+					String res = results[i];
 
-				return jsonObjRecv;
+					// Transform the String into a JSONObject
+					if (i == 0 && results.length > 1) {
+						jsonObjRecv = new JSONObject(res + "}");
+					} else if (i == results.length - 1 && results.length > 1) {
+						jsonObjRecv = new JSONObject("{" + res);
+					} else {
+						jsonObjRecv = new JSONObject(res);
+					}
+					retArray.add(jsonObjRecv);
+
+					// Raw DEBUG output of our received JSON object:
+					Log.i(TAG, "<JSONObject>\n" + jsonObjRecv.toString()
+							+ "\n</JSONObject>");
+				}
+
+				return retArray;
 			}
 
 		} catch (Exception e) {

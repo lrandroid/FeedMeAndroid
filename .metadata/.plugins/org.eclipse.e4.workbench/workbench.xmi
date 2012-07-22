@@ -66,8 +66,8 @@
           <tags>persp.showIn:org.eclipse.team.ui.GenericHistoryView</tags>
           <tags>persp.showIn:org.eclipse.ui.views.ResourceNavigator</tags>
           <tags>persp.showIn:org.eclipse.ui.navigator.ProjectExplorer</tags>
-          <children xsi:type="basic:PartSashContainer" xmi:id="_LttrENN9EeGkuJmtcn4WzA" selectedElement="_noP88dN1EeGkuJmtcn4WzA">
-            <children xsi:type="basic:PartSashContainer" xmi:id="_noP88dN1EeGkuJmtcn4WzA" containerData="6600" selectedElement="_noP88tN1EeGkuJmtcn4WzA" horizontal="true">
+          <children xsi:type="basic:PartSashContainer" xmi:id="_LttrENN9EeGkuJmtcn4WzA" selectedElement="_noQkDNN1EeGkuJmtcn4WzA">
+            <children xsi:type="basic:PartSashContainer" xmi:id="_noP88dN1EeGkuJmtcn4WzA" containerData="6600" selectedElement="_noQkBtN1EeGkuJmtcn4WzA" horizontal="true">
               <children xsi:type="basic:PartStack" xmi:id="_noP88tN1EeGkuJmtcn4WzA" elementId="left" containerData="1777" selectedElement="_noQkANN1EeGkuJmtcn4WzA">
                 <tags>newtablook</tags>
                 <tags>org.eclipse.e4.primaryNavigationStack</tags>
@@ -77,18 +77,26 @@
                 <children xsi:type="advanced:Placeholder" xmi:id="_noQkA9N1EeGkuJmtcn4WzA" elementId="org.eclipse.ui.navigator.ProjectExplorer" toBeRendered="false" ref="_nntKYtN1EeGkuJmtcn4WzA"/>
                 <children xsi:type="advanced:Placeholder" xmi:id="_noQkBNN1EeGkuJmtcn4WzA" elementId="org.eclipse.jdt.junit.ResultView" toBeRendered="false" ref="_noPV4NN1EeGkuJmtcn4WzA"/>
               </children>
-              <children xsi:type="basic:PartSashContainer" xmi:id="_noQkBtN1EeGkuJmtcn4WzA" containerData="8223" selectedElement="_noQkB9N1EeGkuJmtcn4WzA" horizontal="true">
-                <children xsi:type="advanced:Placeholder" xmi:id="_noQkB9N1EeGkuJmtcn4WzA" elementId="org.eclipse.ui.editorss" containerData="7500" ref="_nnXzMNN1EeGkuJmtcn4WzA"/>
-                <children xsi:type="basic:PartStack" xmi:id="_noQkCNN1EeGkuJmtcn4WzA" elementId="right" containerData="2500" selectedElement="_noQkCdN1EeGkuJmtcn4WzA">
+              <children xsi:type="basic:PartSashContainer" xmi:id="_noQkBtN1EeGkuJmtcn4WzA" containerData="8223" selectedElement="_b6KDgNOIEeGdia8jvWJkmw" horizontal="true">
+                <children xsi:type="basic:PartSashContainer" xmi:id="_b6KDgNOIEeGdia8jvWJkmw" containerData="10000" selectedElement="_noQkB9N1EeGkuJmtcn4WzA">
+                  <children xsi:type="advanced:Placeholder" xmi:id="_noQkB9N1EeGkuJmtcn4WzA" elementId="org.eclipse.ui.editorss" containerData="6428" ref="_nnXzMNN1EeGkuJmtcn4WzA">
+                    <tags>Maximized</tags>
+                  </children>
+                  <children xsi:type="basic:PartStack" xmi:id="_b6KDgdOIEeGdia8jvWJkmw" elementId="PartStack@5aae8073" containerData="3572" selectedElement="_STmMMdN4EeGkuJmtcn4WzA">
+                    <children xsi:type="advanced:Placeholder" xmi:id="_STmMMdN4EeGkuJmtcn4WzA" elementId="com.android.ide.eclipse.ddms.views.LogCatView" ref="_STmMMNN4EeGkuJmtcn4WzA"/>
+                  </children>
+                </children>
+                <children xsi:type="basic:PartStack" xmi:id="_noQkCNN1EeGkuJmtcn4WzA" elementId="right" visible="false" containerData="2500" selectedElement="_noQkCdN1EeGkuJmtcn4WzA">
                   <tags>newtablook</tags>
                   <tags>org.eclipse.e4.secondaryNavigationStack</tags>
+                  <tags>Minimized</tags>
                   <children xsi:type="advanced:Placeholder" xmi:id="_noQkCdN1EeGkuJmtcn4WzA" elementId="org.eclipse.ui.views.ContentOutline" ref="_nnwNsNN1EeGkuJmtcn4WzA"/>
                   <children xsi:type="advanced:Placeholder" xmi:id="_noQkCtN1EeGkuJmtcn4WzA" elementId="org.eclipse.ui.texteditor.TemplatesView" toBeRendered="false" ref="_nnw0wNN1EeGkuJmtcn4WzA"/>
                   <children xsi:type="advanced:Placeholder" xmi:id="_noQkC9N1EeGkuJmtcn4WzA" elementId="org.eclipse.ant.ui.views.AntView" toBeRendered="false" ref="_noOHwNN1EeGkuJmtcn4WzA"/>
                 </children>
               </children>
             </children>
-            <children xsi:type="basic:PartStack" xmi:id="_noQkDNN1EeGkuJmtcn4WzA" elementId="bottom" visible="false" containerData="3400" selectedElement="_noRLEdN1EeGkuJmtcn4WzA">
+            <children xsi:type="basic:PartStack" xmi:id="_noQkDNN1EeGkuJmtcn4WzA" elementId="bottom" visible="false" containerData="3400" selectedElement="_UnyP0dONEeGdia8jvWJkmw">
               <tags>newtablook</tags>
               <tags>org.eclipse.e4.secondaryDataStack</tags>
               <tags>Minimized</tags>
@@ -99,7 +107,7 @@
               <children xsi:type="advanced:Placeholder" xmi:id="_noRLEdN1EeGkuJmtcn4WzA" elementId="org.eclipse.ui.console.ConsoleView" ref="_nnvmodN1EeGkuJmtcn4WzA"/>
               <children xsi:type="advanced:Placeholder" xmi:id="_noRLEtN1EeGkuJmtcn4WzA" elementId="org.eclipse.ui.views.BookmarkView" toBeRendered="false" ref="_nnvmotN1EeGkuJmtcn4WzA"/>
               <children xsi:type="advanced:Placeholder" xmi:id="_noRLE9N1EeGkuJmtcn4WzA" elementId="org.eclipse.ui.views.ProgressView" toBeRendered="false" ref="_nnvmo9N1EeGkuJmtcn4WzA"/>
-              <children xsi:type="advanced:Placeholder" xmi:id="_STmMMdN4EeGkuJmtcn4WzA" elementId="com.android.ide.eclipse.ddms.views.LogCatView" ref="_STmMMNN4EeGkuJmtcn4WzA"/>
+              <children xsi:type="advanced:Placeholder" xmi:id="_UnyP0dONEeGdia8jvWJkmw" elementId="org.eclipse.pde.runtime.LogView" ref="_UnyP0NONEeGdia8jvWJkmw"/>
             </children>
           </children>
         </children>
@@ -123,27 +131,47 @@
       <tags>categoryTag:Help</tags>
     </sharedElements>
     <sharedElements xsi:type="advanced:Area" xmi:id="_nnXzMNN1EeGkuJmtcn4WzA" elementId="org.eclipse.ui.editorss" selectedElement="_nnYaQNN1EeGkuJmtcn4WzA">
-      <children xsi:type="basic:PartStack" xmi:id="_nnYaQNN1EeGkuJmtcn4WzA" elementId="org.eclipse.e4.primaryDataStack" selectedElement="_2l6twNODEeGkuJmtcn4WzA">
+      <children xsi:type="basic:PartStack" xmi:id="_nnYaQNN1EeGkuJmtcn4WzA" elementId="org.eclipse.e4.primaryDataStack" selectedElement="_x0oUkNN5EeGkuJmtcn4WzA">
         <tags>newtablook</tags>
         <tags>org.eclipse.e4.primaryDataStack</tags>
         <tags>EditorStack</tags>
         <children xsi:type="basic:Part" xmi:id="_x0oUkNN5EeGkuJmtcn4WzA" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="Feed.java" iconURI="platform:/plugin/org.eclipse.jdt.ui//icons/full/obj16/jcu_obj.gif" tooltip="FeedMeAndroid/src/com/android/feedmeandroid/Feed.java" closeable="true">
-          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/FeedMeAndroid/src/com/android/feedmeandroid/Feed.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;305&quot; selectionTopPixel=&quot;0&quot;/>&#xA;&lt;/editor>"/>
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/FeedMeAndroid/src/com/android/feedmeandroid/Feed.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;5&quot; selectionOffset=&quot;5038&quot; selectionTopPixel=&quot;2511&quot;/>&#xA;&lt;/editor>"/>
           <tags>Editor</tags>
           <tags>removeOnHide</tags>
         </children>
-        <children xsi:type="basic:Part" xmi:id="_VgDAcNOAEeGkuJmtcn4WzA" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="Login.java" iconURI="platform:/plugin/org.eclipse.jdt.ui//icons/full/obj16/jcu_obj.gif" tooltip="FeedMeAndroid/src/com/android/feedmeandroid/Login.java" closeable="true">
-          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/FeedMeAndroid/src/com/android/feedmeandroid/Login.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;1178&quot; selectionTopPixel=&quot;271&quot;/>&#xA;&lt;/editor>"/>
+        <children xsi:type="basic:Part" xmi:id="_HdoegNOUEeGdia8jvWJkmw" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="Constants.java" iconURI="platform:/plugin/org.eclipse.jdt.ui//icons/full/obj16/jcu_obj.gif" tooltip="FeedMeAndroid/src/com/android/feedmeandroid/Constants.java" closeable="true">
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/FeedMeAndroid/src/com/android/feedmeandroid/Constants.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;349&quot; selectionTopPixel=&quot;0&quot;/>&#xA;&lt;/editor>"/>
           <tags>Editor</tags>
           <tags>removeOnHide</tags>
         </children>
-        <children xsi:type="basic:Part" xmi:id="_XQgRcNOAEeGkuJmtcn4WzA" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="Constants.java" iconURI="platform:/plugin/org.eclipse.jdt.ui//icons/full/obj16/jcu_obj.gif" tooltip="FeedMeAndroid/src/com/android/feedmeandroid/Constants.java" closeable="true">
-          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/FeedMeAndroid/src/com/android/feedmeandroid/Constants.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;10&quot; selectionOffset=&quot;89&quot; selectionTopPixel=&quot;0&quot;/>&#xA;&lt;/editor>"/>
+        <children xsi:type="basic:Part" xmi:id="_0RdyUNOYEeGdia8jvWJkmw" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="Food.java" iconURI="platform:/plugin/org.eclipse.jdt.ui//icons/full/obj16/jcu_obj.gif" tooltip="FeedMeAndroid/src/com/android/feedmeandroid/Food.java" closeable="true">
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/FeedMeAndroid/src/com/android/feedmeandroid/Food.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;564&quot; selectionTopPixel=&quot;0&quot;/>&#xA;&lt;/editor>"/>
           <tags>Editor</tags>
           <tags>removeOnHide</tags>
         </children>
-        <children xsi:type="basic:Part" xmi:id="_2l6twNODEeGkuJmtcn4WzA" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="FeedMeAndroid Manifest" iconURI="platform:/plugin/com.android.ide.eclipse.adt/icons/android_file.png" tooltip="FeedMeAndroid/AndroidManifest.xml" closeable="true">
+        <children xsi:type="basic:Part" xmi:id="_x1EWcNOaEeGdia8jvWJkmw" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="FeedMeAndroid Manifest" iconURI="platform:/plugin/com.android.ide.eclipse.adt/icons/android_file.png" tooltip="FeedMeAndroid/AndroidManifest.xml" closeable="true">
           <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;com.android.ide.eclipse.editors.manifest.ManifestEditor&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/FeedMeAndroid/AndroidManifest.xml&quot;/>&#xA;&lt;/editor>"/>
+          <tags>Editor</tags>
+          <tags>removeOnHide</tags>
+        </children>
+        <children xsi:type="basic:Part" xmi:id="_8nR70NOaEeGdia8jvWJkmw" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="HTTPClient.java" iconURI="platform:/plugin/org.eclipse.jdt.ui//icons/full/obj16/jcu_obj.gif" tooltip="FeedMeAndroid/src/com/android/feedmeandroid/HTTPClient.java" closeable="true">
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/FeedMeAndroid/src/com/android/feedmeandroid/HTTPClient.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;760&quot; selectionTopPixel=&quot;0&quot;/>&#xA;&lt;/editor>"/>
+          <tags>Editor</tags>
+          <tags>removeOnHide</tags>
+        </children>
+        <children xsi:type="basic:Part" xmi:id="_MZeCMNObEeGdia8jvWJkmw" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="activity_feed.xml" iconURI="platform:/plugin/com.android.ide.eclipse.adt/icons/android_file.png" tooltip="FeedMeAndroid/res/layout/activity_feed.xml" closeable="true">
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;com.android.ide.eclipse.editors.CommonXmlEditor&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/FeedMeAndroid/res/layout/activity_feed.xml&quot;/>&#xA;&lt;/editor>"/>
+          <tags>Editor</tags>
+          <tags>removeOnHide</tags>
+        </children>
+        <children xsi:type="basic:Part" xmi:id="_De_IkNOdEeGdia8jvWJkmw" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="NFCLoader.java" iconURI="platform:/plugin/org.eclipse.jdt.ui//icons/full/obj16/jcu_obj.gif" tooltip="FeedMeAndroid/src/com/android/feedmeandroid/NFCLoader.java" closeable="true">
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/FeedMeAndroid/src/com/android/feedmeandroid/NFCLoader.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;2264&quot; selectionTopPixel=&quot;219&quot;/>&#xA;&lt;/editor>"/>
+          <tags>Editor</tags>
+          <tags>removeOnHide</tags>
+        </children>
+        <children xsi:type="basic:Part" xmi:id="_kc_AYNOtEeGdia8jvWJkmw" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="ItemActivity.java" iconURI="platform:/plugin/org.eclipse.jdt.ui//icons/full/obj16/jcu_obj.gif" tooltip="FeedMeAndroid/src/com/android/feedmeandroid/ItemActivity.java" closeable="true">
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/FeedMeAndroid/src/com/android/feedmeandroid/ItemActivity.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;1240&quot; selectionTopPixel=&quot;240&quot;/>&#xA;&lt;/editor>"/>
           <tags>Editor</tags>
           <tags>removeOnHide</tags>
         </children>
@@ -171,7 +199,7 @@
       <tags>View</tags>
       <tags>categoryTag:General</tags>
     </sharedElements>
-    <sharedElements xsi:type="basic:Part" xmi:id="_nntKY9N1EeGkuJmtcn4WzA" elementId="org.eclipse.ui.views.ProblemView" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Problems" iconURI="platform:/plugin/org.eclipse.ui.ide//icons/full/eview16/problems_view.gif" tooltip="0 errors, 1 warning, 0 others" closeable="true">
+    <sharedElements xsi:type="basic:Part" xmi:id="_nntKY9N1EeGkuJmtcn4WzA" elementId="org.eclipse.ui.views.ProblemView" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Problems" iconURI="platform:/plugin/org.eclipse.ui.ide//icons/full/eview16/problems_view.gif" tooltip="1 error, 4 warnings, 0 others" closeable="true">
       <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;view PRIMARY_SORT_FIELD=&quot;org.eclipse.ui.ide.severityAndDescriptionField&quot; categoryGroup=&quot;org.eclipse.ui.ide.severity&quot; markerContentGenerator=&quot;org.eclipse.ui.ide.problemsGenerator&quot; partName=&quot;Problems&quot;>&#xA;&lt;expanded>&#xA;&lt;category IMemento.internal.id=&quot;Warnings (1 item)&quot;/>&#xA;&lt;/expanded>&#xA;&lt;columnWidths org.eclipse.ui.ide.locationField=&quot;90&quot; org.eclipse.ui.ide.markerType=&quot;90&quot; org.eclipse.ui.ide.pathField=&quot;120&quot; org.eclipse.ui.ide.resourceField=&quot;90&quot; org.eclipse.ui.ide.severityAndDescriptionField=&quot;300&quot;/>&#xA;&lt;visible IMemento.internal.id=&quot;org.eclipse.ui.ide.severityAndDescriptionField&quot;/>&#xA;&lt;visible IMemento.internal.id=&quot;org.eclipse.ui.ide.resourceField&quot;/>&#xA;&lt;visible IMemento.internal.id=&quot;org.eclipse.ui.ide.pathField&quot;/>&#xA;&lt;visible IMemento.internal.id=&quot;org.eclipse.ui.ide.locationField&quot;/>&#xA;&lt;visible IMemento.internal.id=&quot;org.eclipse.ui.ide.markerType&quot;/>&#xA;&lt;/view>"/>
       <tags>View</tags>
       <tags>categoryTag:General</tags>
@@ -243,6 +271,16 @@
       </menus>
       <toolbar xmi:id="_SUHJkdN4EeGkuJmtcn4WzA" elementId="com.android.ide.eclipse.ddms.views.LogCatView" visible="false"/>
     </sharedElements>
+    <sharedElements xsi:type="basic:Part" xmi:id="_UnyP0NONEeGdia8jvWJkmw" elementId="org.eclipse.pde.runtime.LogView" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Error Log" iconURI="platform:/plugin/org.eclipse.ui.views.log//icons/eview16/error_log.gif" tooltip="" closeable="true">
+      <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;view activate=&quot;true&quot; allSessions=&quot;true&quot; column2=&quot;300&quot; column3=&quot;150&quot; column4=&quot;150&quot; error=&quot;true&quot; groupBy=&quot;0&quot; info=&quot;true&quot; limit=&quot;50&quot; ok=&quot;true&quot; orderType=&quot;2&quot; orderValue=&quot;-1&quot; show_filter_text=&quot;true&quot; useLimit=&quot;true&quot; warning=&quot;true&quot;/>"/>
+      <tags>View</tags>
+      <tags>categoryTag:General</tags>
+      <menus xmi:id="_UoZT0NONEeGdia8jvWJkmw" elementId="org.eclipse.pde.runtime.LogView">
+        <tags>ViewMenu</tags>
+        <tags>menuContribution:menu</tags>
+      </menus>
+      <toolbar xmi:id="_UoZ64NONEeGdia8jvWJkmw" elementId="org.eclipse.pde.runtime.LogView" visible="false"/>
+    </sharedElements>
     <trimBars xmi:id="_nirgcNN1EeGkuJmtcn4WzA" elementId="org.eclipse.ui.main.toolbar"/>
     <trimBars xmi:id="_oWI9sNN1EeGkuJmtcn4WzA" elementId="org.eclipse.ui.trim.status" side="Bottom">
       <children xsi:type="menu:ToolControl" xmi:id="_oWKy4NN1EeGkuJmtcn4WzA" elementId="org.eclipse.ui.StatusLine" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.StandardTrim">
@@ -255,6 +293,22 @@
       <children xsi:type="menu:ToolControl" xmi:id="_XCi5gNN2EeGkuJmtcn4WzA" elementId="bottom(org.eclipse.jdt.ui.JavaPerspective)" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.addons.swt/org.eclipse.e4.ui.workbench.addons.minmax.TrimStack">
         <persistedState key="XSize" value="600"/>
         <persistedState key="YSize" value="400"/>
+        <tags>TrimStack</tags>
+      </children>
+      <children xsi:type="menu:ToolControl" xmi:id="_emwzsNOIEeGdia8jvWJkmw" elementId="right(org.eclipse.jdt.ui.JavaPerspective)" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.addons.swt/org.eclipse.e4.ui.workbench.addons.minmax.TrimStack">
+        <tags>TrimStack</tags>
+      </children>
+      <children xsi:type="menu:ToolControl" xmi:id="_enJOMNOIEeGdia8jvWJkmw" elementId="org.eclipse.ui.editorss(org.eclipse.jdt.ui.JavaPerspective)" toBeRendered="false" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.addons.swt/org.eclipse.e4.ui.workbench.addons.minmax.TrimStack">
+        <tags>TrimStack</tags>
+      </children>
+      <children xsi:type="menu:ToolControl" xmi:id="_fwFMMNOIEeGdia8jvWJkmw" elementId="PartStack@5aae8073(org.eclipse.jdt.ui.JavaPerspective)" toBeRendered="false" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.addons.swt/org.eclipse.e4.ui.workbench.addons.minmax.TrimStack">
+        <persistedState key="XSize" value="600"/>
+        <persistedState key="YSize" value="400"/>
+        <tags>TrimStack</tags>
+      </children>
+    </trimBars>
+    <trimBars xmi:id="_el0_kNOIEeGdia8jvWJkmw" elementId="org.eclipse.ui.trim.vertical1" toBeRendered="false" side="Left">
+      <children xsi:type="menu:ToolControl" xmi:id="_el20wNOIEeGdia8jvWJkmw" elementId="left(org.eclipse.jdt.ui.JavaPerspective)" toBeRendered="false" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.addons.swt/org.eclipse.e4.ui.workbench.addons.minmax.TrimStack">
         <tags>TrimStack</tags>
       </children>
     </trimBars>
