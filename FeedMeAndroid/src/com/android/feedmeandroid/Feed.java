@@ -67,6 +67,19 @@ public class Feed extends Activity {
 		}
 	}
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        facebook.authorizeCallback(requestCode, resultCode, data);
+    }
+    
+    @Override
+    public void onResume() {    
+        super.onResume();
+        facebook.extendAccessTokenIfNeeded(this, null);
+    }
+    
 	public void showMenu() {
 		// query facebook for basic user info
 		String user_info = "";
