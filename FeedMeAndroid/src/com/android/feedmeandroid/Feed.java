@@ -306,6 +306,12 @@ public class Feed extends Activity {
 				AlertDialog.Builder done = new AlertDialog.Builder(Feed.this);
 				final LinearLayout item_layout = new LinearLayout(Feed.this);
 				item_layout.setOrientation(LinearLayout.VERTICAL);
+				LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+						LinearLayout.LayoutParams.FILL_PARENT,
+						LinearLayout.LayoutParams.WRAP_CONTENT);
+				layoutParams.height=50;
+				layoutParams.width=50;
+				layoutParams.setMargins(20, 15, 20, 20);
 				for (int i=0; i<order.size(); i++){
 					final Food food = order.get(i);
 					final LinearLayout this_layout = new LinearLayout(Feed.this);
@@ -324,7 +330,7 @@ public class Feed extends Activity {
 						}
 						
 					});
-					this_layout.addView(delete);
+					this_layout.addView(delete, layoutParams);
 					this_layout.addView(item_description);
 					item_layout.addView(this_layout);
 				}
