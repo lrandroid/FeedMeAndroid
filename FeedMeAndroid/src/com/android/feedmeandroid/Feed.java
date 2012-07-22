@@ -92,10 +92,10 @@ public class Feed extends Activity {
 
 	public void showMenu() {
 		// query facebook for basic user info
-			final String[] name = new String[2];
-			Thread thread = new Thread(new Runnable(){
-				public void run(){
-					try {
+		final String[] name = new String[2];
+		Thread thread = new Thread(new Runnable() {
+			public void run() {
+				try {
 
 					JSONObject json_user_info;
 					String user_info = "";
@@ -104,7 +104,8 @@ public class Feed extends Activity {
 
 					// query web client for the following:
 					// 1) construct user json object to pass to web client
-					// 2) notify them that the user has checked into the restaurant,
+					// 2) notify them that the user has checked into the
+					// restaurant,
 					// along with FB user information
 					// 3) receive menu info for the restaurant from the site
 
@@ -115,7 +116,7 @@ public class Feed extends Activity {
 					JSONObject pass_user_info = new JSONObject();
 					pass_user_info.put("first_name", first_name);
 					pass_user_info.put("last_name", last_name);
-					pass_user_info.put("facebook_id",facebook_id);
+					pass_user_info.put("facebook_id", facebook_id);
 
 					JSONObject webRequest = new JSONObject();
 					String res_id = Session.getRestaurant();
@@ -124,7 +125,8 @@ public class Feed extends Activity {
 					webRequest.put("table_id", "1");
 					webRequest.put("user", pass_user_info);
 
-					// 2) notify them that the user has checked into the restaurant,
+					// 2) notify them that the user has checked into the
+					// restaurant,
 					// along with FB user information
 					// 3) receive menu info for the restaurant from the site
 					Log.v("request", webRequest.toString());
@@ -132,67 +134,68 @@ public class Feed extends Activity {
 							Constants.WEB_CLIENT_REST_URL, webRequest);
 					name[0] = first_name;
 					name[1] = last_name;
-					}catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+			}
+		});
+
+		thread.start();
+		try {
+			thread.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// Use returned JSONObject to populate layout with food
+		ArrayList<Food> menu = new ArrayList<Food>();
+		String[] comments = new String[2];
+		comments[0] = "comment1";
+		comments[1] = "comment2";
+		Food test1 = new Food("title1", "delecious1", "url1", 1, 1, comments,
+				"1.00");
+		for (int i = 0; i < 5; i++) {
+			menu.add(test1);
+		}
+
+		LinearLayout linear = new LinearLayout(this);
+		linear.setOrientation(LinearLayout.VERTICAL);
+		TextView text = new TextView(this);
+		text.setText("welcome: " + name[0] + " " + name[1]);
+		linear.addView(text);
+
+		for (final Food f : menu) {
+			LinearLayout item = new LinearLayout(this);
+			item.setOrientation(LinearLayout.VERTICAL);
+			TextView title_and_price = new TextView(this);
+			title_and_price.setText(f.title + " " + f.price);
+			item.addView(title_and_price);
+
+			// make each item clickable to take to the food page
+			item.setOnClickListener(new OnClickListener() {
+
+				public void onClick(View v) {
+					// showFood(f);
+				}
+
 			});
-			thread.start();
-			try {
-				thread.join();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			// Log.v("tested request",menu.toString());
 
-			// Use returned JSONObject to populate layout with food
-			ArrayList<Food> menu = new ArrayList<Food>();
-			String[] comments = new String[2];
-			comments[0] = "comment1";
-			comments[1] = "comment2";
-			Food test1 = new Food("title1", "delecious1", "url1", 1, 1, comments, "1.00");
-			for(int i = 0; i < 5; i++) {
-				menu.add(test1);
-			}
-			
-			LinearLayout linear = new LinearLayout(this);
-			linear.setOrientation(LinearLayout.VERTICAL);
-			TextView text = new TextView(this);
-			text.setText("welcome: " + name[0] + " " + name[1]);
-			linear.addView(text);
-			
-			for(final Food f : menu) {
-				LinearLayout item = new LinearLayout(this);
-				item.setOrientation(LinearLayout.VERTICAL);
-				TextView title_and_price = new TextView(this);
-				title_and_price.setText(f.title + " " + f.price);
-				item.addView(title_and_price);
-				
-				//make each item clickable to take to the food page
-				item.setOnClickListener(new OnClickListener() {
+			linear.addView(item);
+		}
 
-					public void onClick(View v) {
-						//showFood(f);
-					}
-					
-				});
-				
-				linear.addView(item);
-			}
-			
-			setContentView(linear);
-
-	
-		// gotta catch em all
+		setContentView(linear);
 
 	}
-	
+
 	public void showFood(Food food) {
 		Intent myIntent = new Intent(Feed.this, ItemActivity.class);
-		Bundle bundle = new Bundle();
-		bundle.putSerializable("food", food);
+		myIntent.putExtra("food", food);
+		Log.v("asdf", "oncreate1");
+
 		Feed.this.startActivity(myIntent);
+		Log.v("asdf", "oncreate2");
+
 	}
 }
