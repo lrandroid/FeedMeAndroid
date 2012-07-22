@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
@@ -177,9 +178,6 @@ public class Feed extends Activity {
 
 		LinearLayout linear = new LinearLayout(this);
 		linear.setOrientation(LinearLayout.VERTICAL);
-		TextView text = new TextView(this);
-		text.setText("welcome: " + name[0] + " " + name[1]);
-		linear.addView(text);
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.FILL_PARENT,
 				LinearLayout.LayoutParams.WRAP_CONTENT);
