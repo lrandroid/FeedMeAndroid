@@ -1,9 +1,11 @@
 package com.android.feedmeandroid;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -12,22 +14,24 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class ItemActivity extends Activity {
-	public void OnCreate(Bundle bundle) {
-		super.onCreate(bundle);
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		Log.v("asdf", "oncreate");
 		Food this_food = null;
 		try {
-			this_food = (Food) bundle.get("food");
+			Intent i = getIntent();
+			this_food = (Food) i.getSerializableExtra("food");
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		if (this_food == null) {
 			finish();
 			return;
 		}
+		setTitle(this_food.title);
 		LinearLayout layout = new LinearLayout(this);
-		layout.setOrientation(LinearLayout.HORIZONTAL);
-		TextView title_view = new TextView(this);
-		title_view.setText(this_food.title);
-		layout.addView(title_view);
+		layout.setOrientation(LinearLayout.VERTICAL);
 
 		RelativeLayout rLayout = new RelativeLayout(this);
 		LayoutParams rlParams = new LayoutParams(LayoutParams.FILL_PARENT,
@@ -53,8 +57,12 @@ public class ItemActivity extends Activity {
 		rLayout.addView(text);
 		layout.addView(rLayout);
 		TextView description_view = new TextView(this);
-		description_view.setText(this_food.description);
+		description_view.setText(this_food.description+"\n\n");
 		layout.addView(description_view);
+		TextView comments_header = new TextView(this);
+		comments_header.setText("Reviews");
+		comments_header.setTextScaleX(2);
+		layout.addView(comments_header);
 		TextView comments_view = new TextView(this);
 		StringBuilder comments_builder = new StringBuilder();
 		for (int i=0; i<this_food.comment.length; i++){

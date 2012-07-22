@@ -88,10 +88,10 @@ public class Feed extends Activity {
 
 	public void showMenu() {
 		// query facebook for basic user info
-			final String[] name = new String[2];
-			Thread thread = new Thread(new Runnable(){
-				public void run(){
-					try {
+		final String[] name = new String[2];
+		Thread thread = new Thread(new Runnable() {
+			public void run() {
+				try {
 
 					JSONObject json_user_info;
 					String user_info = "";
@@ -100,7 +100,8 @@ public class Feed extends Activity {
 
 					// query web client for the following:
 					// 1) construct user json object to pass to web client
-					// 2) notify them that the user has checked into the restaurant,
+					// 2) notify them that the user has checked into the
+					// restaurant,
 					// along with FB user information
 					// 3) receive menu info for the restaurant from the site
 
@@ -120,7 +121,8 @@ public class Feed extends Activity {
 					webRequest.put("table_id", table_id);
 					webRequest.put("user", pass_user_info);
 
-					// 2) notify them that the user has checked into the restaurant,
+					// 2) notify them that the user has checked into the
+					// restaurant,
 					// along with FB user information
 					// 3) receive menu info for the restaurant from the site
 					Log.v("request", webRequest.toString());
@@ -128,37 +130,42 @@ public class Feed extends Activity {
 							Constants.WEB_CLIENT_REST_URL, webRequest);
 					name[0] = first_name;
 					name[1] = last_name;
-					}catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-			});
-			thread.start();
-			try {
-				thread.join();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
-			// Log.v("tested request",menu.toString());
+		});
+		thread.start();
+		try {
+			thread.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// Log.v("tested request",menu.toString());
 
-			// Use returned JSONObject to populate layout with food
-			LinearLayout linear = new LinearLayout(this);
-			linear.setOrientation(LinearLayout.VERTICAL);
-			TextView text = new TextView(this);
-			text.setText("welcome: " + name[0] + " " + name[1]);
-			linear.addView(text);
-			setContentView(linear);
-	
+		// Use returned JSONObject to populate layout with food
+		LinearLayout linear = new LinearLayout(this);
+		linear.setOrientation(LinearLayout.VERTICAL);
+		TextView text = new TextView(this);
+		text.setText("welcome: " + name[0] + " " + name[1]);
+		linear.addView(text);
+		setContentView(linear);
+		showFood(new Food("Burger", "Yeah a burger with no cheese.   Bitch.",
+				"http://icons.iconseeker.com/png/fullsize/food/burger.png", 27,
+				12, new String[] { "Love it!" }, "2.25"));
 		// gotta catch em all
 
 	}
 
 	public void showFood(Food food) {
 		Intent myIntent = new Intent(Feed.this, ItemActivity.class);
-		Bundle bundle = new Bundle();
-		bundle.putSerializable("food", food);
+		myIntent.putExtra("food", food);
+		Log.v("asdf", "oncreate1");
+
 		Feed.this.startActivity(myIntent);
+		Log.v("asdf", "oncreate2");
+
 	}
 }
