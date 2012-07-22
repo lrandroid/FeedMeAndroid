@@ -60,7 +60,7 @@ public class Feed extends Activity {
 			JSONObject pass_user_info = new JSONObject();
 			pass_user_info.put("first_name",first_name);
 			pass_user_info.put("last_name",last_name);
-			//pass_user_info.put("facebook_id",facebook_id);
+			pass_user_info.put("facebook_id",facebook_id);
 			
 			JSONObject webRequest = new JSONObject();
 			String res_id = Session.getRestaurant();
@@ -69,9 +69,8 @@ public class Feed extends Activity {
 			webRequest.put("table_id",table_id);
 			webRequest.put("user", pass_user_info);
 
-			Log.v("request",webRequest.toString());
 			JSONObject menu = HTTPClient.SendHttpPost(Constants.WEB_CLIENT_REST_URL, webRequest);
-			//Log.v("tested request",menu.toString());
+		
 			
 		}
 		// gotta catch em all

@@ -49,29 +49,19 @@ public class Feed extends Activity {
 			user_info = facebook.request("me");
 			json_user_info = new JSONObject(user_info);
 			
-			// query web client for the following:
-			// 1) construct user json object to pass to web client
-			// 2) notify them that the user has checked into the restaurant,
-			// along with FB user information
-			// 3) receive menu info for the restaurant from the site
-			String first_name = json_user_info.getString("first_name");
-			String last_name = json_user_info.getString("last_name");
-			String facebook_id = json_user_info.getString("id");
-			JSONObject pass_user_info = new JSONObject();
-			pass_user_info.put("first_name",first_name);
-			pass_user_info.put("last_name",last_name);
-			//pass_user_info.put("facebook_id",facebook_id);
 			
+			// query web client for the following:
+			// 1) notify them that the user has checked into the restaurant,
+			// along with FB user information
+			// 2) receive menu info for the restaurant from the site
 			JSONObject webRequest = new JSONObject();
 			String res_id = Session.getRestaurant();
 			webRequest.put("restaurant_id",res_id);
 			String table_id = Session.getTable();
-			webRequest.put("table_id",table_id);
-			webRequest.put("user", pass_user_info);
-
-			Log.v("request",webRequest.toString());
-			JSONObject menu = HTTPClient.SendHttpPost(Constants.WEB_CLIENT_REST_URL, webRequest);
-			//Log.v("tested request",menu.toString());
+			webRequest.put("table_id", table_id)
+			//JSONObject user_info = new JSONObject();
+			//user_info
+		
 			
 		}
 		// gotta catch em all
