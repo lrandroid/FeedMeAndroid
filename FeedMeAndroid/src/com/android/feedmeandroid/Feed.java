@@ -185,6 +185,7 @@ public class Feed extends Activity {
 				Cache.put(f.image_url, bitmap);
 			}
 			image.setImageBitmap(bitmap);
+			image.setCropToPadding(true);
 			item.addView(image);
 			// make each item clickable to take to the food page
 			item.setOnClickListener(new OnClickListener() {
