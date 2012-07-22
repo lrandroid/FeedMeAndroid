@@ -167,8 +167,8 @@ public class Feed extends Activity {
 		comments[0] = "comment1";
 		comments[1] = "comment2";
 		Food test1 = new Food(
-				"Hamburger",
-				"delecious1",
+				"Club Sandwich",
+				"Turkey, bacon, tomatos, and lettuce sandwiched between two pieces of slices of our freshly baked Italian Herb bread.",
 				"http://i-cdn.apartmenttherapy.com/uimages/kitchen/2008_04_15-PlaneFood.jpg",
 				1, 1, comments, "1.00");
 		for (int i = 0; i < 5; i++) {
@@ -198,28 +198,28 @@ public class Feed extends Activity {
 			Bitmap bitmap = Cache.get(f.image_url);
 			if (bitmap == null) {
 				bitmap = HTTPClient.downloadFile(f.image_url);
-				Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap
-		                .getHeight(), Config.ARGB_8888);
-		        Canvas canvas = new Canvas(output);
+				Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
+						bitmap.getHeight(), Config.ARGB_8888);
+				Canvas canvas = new Canvas(output);
 
-		        final int color = 0xff424242;
-		        final Paint paint = new Paint();
-		        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-		        final RectF rectF = new RectF(rect);
-		        final float roundPx = 30;
+				final int color = 0xff424242;
+				final Paint paint = new Paint();
+				final Rect rect = new Rect(0, 0, bitmap.getWidth(),
+						bitmap.getHeight());
+				final RectF rectF = new RectF(rect);
+				final float roundPx = 30;
 
-		        paint.setAntiAlias(true);
-		        canvas.drawARGB(0, 0, 0, 0);
-		        paint.setColor(color);
-		        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+				paint.setAntiAlias(true);
+				canvas.drawARGB(0, 0, 0, 0);
+				paint.setColor(color);
+				canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
 
-		        paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
-		        canvas.drawBitmap(bitmap, rect, rect, paint);
-		        bitmap = output;
+				paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+				canvas.drawBitmap(bitmap, rect, rect, paint);
+				bitmap = output;
 				Cache.put(f.image_url, bitmap);
 			}
-			BitmapDrawable bg = new BitmapDrawable(getResources(),
-					bitmap);
+			BitmapDrawable bg = new BitmapDrawable(getResources(), bitmap);
 			item.setBackgroundDrawable(bg);
 
 			// make each item clickable to take to the food page
