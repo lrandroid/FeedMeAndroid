@@ -1,21 +1,14 @@
 package com.android.feedmeandroid;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.facebook.android.DialogError;
-import com.facebook.android.Facebook;
-import com.facebook.android.FacebookError;
-import com.facebook.android.Facebook.DialogListener;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+
+import com.facebook.android.Facebook;
 
 public class Feed extends Activity {
 
@@ -29,12 +22,12 @@ public class Feed extends Activity {
 		setContentView(R.layout.activity_feed);
 
 		// set facebook access token
-		mPrefs = getSharedPreferences(Constants.SHARED_PREFS_NAME,0);
+		mPrefs = getSharedPreferences(Constants.SHARED_PREFS_NAME, 0);
 		String access_token = mPrefs.getString("access_token", null);
 		long expires = mPrefs.getLong("access_expires", 0);
 		Log.v("test", access_token);
 		Log.v("test", Long.toBinaryString(expires));
-		
+
 		if (access_token != null) {
 			facebook.setAccessToken(access_token);
 		}
@@ -48,9 +41,7 @@ public class Feed extends Activity {
 		try {
 			user_info = facebook.request("me");
 			json_user_info = new JSONObject(user_info);
-			
-			
-			
+
 		}
 		// gotta catch em all
 		catch (Exception e) {
@@ -63,5 +54,12 @@ public class Feed extends Activity {
 		// along with user information
 		// 2)
 
+	}
+
+	public void showFood(Food food) {
+		Intent myIntent = new Intent(Feed.this, ItemActivity.class);
+		Bundle bundle = new Bundle();
+		bundle.putSerializable("value", food);
+		Feed.this.startActivity(myIntent);
 	}
 }

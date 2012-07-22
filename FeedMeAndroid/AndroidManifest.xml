@@ -27,7 +27,7 @@
             android:label="@string/title_activity_feed" >
         </activity>
         <activity
-            android:name=".NFCDialog"
+            android:name=".NFCLoader"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="user"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" >
