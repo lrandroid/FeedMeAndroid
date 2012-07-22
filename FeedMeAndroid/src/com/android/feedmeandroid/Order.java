@@ -25,18 +25,20 @@ public class Order {
 	}
 	
 	public void submitOrder() {
-		String order = Feed.fb_id;
-		for(Food f : mOrder) {
-			
+		int[] order_ids = new int[mOrder.size()];
+		for(int i = 0; i < mOrder.size(); i++) {
+			order_ids[i] = Integer.parseInt(mOrder.get(i).id);
 		}
+		
+		final int[] thread_order_ids = order_ids;
 		//submit order
 		Thread thread = new Thread(new Runnable() {
 			public void run() {
 				try {
 					
 					JSONObject webRequest = new JSONObject();
-					String res_id = Session.getRestaurant();
-					webRequest.put("restaurant_id", "1");
+					webRequest.put("user_id", Feed.fb_id);
+					webRequest.put("order", thread_order_ids);
 					Log.v("request", webRequest.toString());
 					ArrayList<JSONObject> response = HTTPClient
 							.SendHttpPost(
