@@ -77,9 +77,15 @@ public class ItemActivity extends Activity {
 		rLayout.addView(rating_layout);
 		LayoutParams params = rating_layout.getLayoutParams();
 		params.height = 65;
-		toplayout.addView(rLayout);
+		toplayout.addView(rLayout, new android.view.ViewGroup.LayoutParams(
+	            android.view.ViewGroup.LayoutParams.FILL_PARENT,
+	            android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 		TextView description_view = new TextView(this);
 		description_view.setText(this_food.description+"\n\n");
+		LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+	    llp.setMargins(50, 0, 50, 0); // llp.setMargins(left, top, right, bottom);
+		description_view.setLayoutParams(llp);
+		description_view.setTextSize(20);
 		toplayout.addView(description_view);
 		Button add = new Button(this);
 		add.setBackgroundResource(R.drawable.candidate_first_dark);
@@ -102,10 +108,7 @@ public class ItemActivity extends Activity {
 			}
 			
 		});
-		LinearLayout layout = new LinearLayout(this);
-		layout.setOrientation(LinearLayout.VERTICAL);
-		layout.addView(toplayout, Feed.width, 3*Feed.height/4);
-		layout.addView(add);
+
 		/*TextView comments_header = new TextView(this);
 		comments_header.setText("Reviews:");
 		comments_header.setTypeface(null, Typeface.BOLD);
@@ -119,7 +122,11 @@ public class ItemActivity extends Activity {
 			layout.addView(comments_view[i]);
 		}*/
 		ScrollView scroll = new ScrollView(this);
-		scroll.addView(layout);
-		setContentView(scroll);
+		scroll.addView(toplayout);
+		LinearLayout finallayout = new LinearLayout(this);
+		finallayout.setOrientation(LinearLayout.VERTICAL);
+		finallayout.addView(scroll,  Feed.width, 3*Feed.height/4);
+		finallayout.addView(add, Feed.buttonParams);
+		setContentView(finallayout);
 	}
 }

@@ -50,6 +50,7 @@ public class Feed extends Activity {
 	static LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
 			LinearLayout.LayoutParams.FILL_PARENT,
 			LinearLayout.LayoutParams.FILL_PARENT);
+	static LinearLayout fullMenu;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -128,7 +129,8 @@ public class Feed extends Activity {
             Intent myIntent = new Intent(Feed.this, Payment.class);
             Feed.this.startActivity(myIntent);
 		}
-		showMenu();
+		if (fullMenu == null || fullMenu.getChildCount()==0)
+			showMenu();
 	}
 
 	public void showMenu() {
@@ -250,7 +252,7 @@ public class Feed extends Activity {
 		}
 
 		// put together full menu plus submit order button
-		LinearLayout fullMenu = new LinearLayout(this);
+		fullMenu = new LinearLayout(this);
 		fullMenu.setOrientation(LinearLayout.VERTICAL);
 
 		LinearLayout items = new LinearLayout(this);

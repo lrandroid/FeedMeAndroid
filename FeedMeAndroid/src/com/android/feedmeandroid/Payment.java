@@ -16,13 +16,15 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.android.feedmeandroid.exception.StripeException;
 import com.android.feedmeandroid.model.Charge;
-
 
 public class Payment extends Activity {
 
@@ -64,22 +66,37 @@ public class Payment extends Activity {
 			item_description.setGravity(Gravity.CENTER_VERTICAL);
 			item_description.setLayoutParams(textParams);
 
-			Button upvote = new Button(Payment.this);
-			upvote.setBackgroundResource(R.drawable.thumbs_up);
-			upvote.setOnClickListener(new OnClickListener() {
+			final ToggleButton upvote = new ToggleButton(Payment.this);
+			upvote.setTextOff("");
+			upvote.setTextOn("");
+			upvote.setText("");
+			upvote.setBackgroundResource(R.drawable.thumbsup);
+			final ToggleButton downvote = new ToggleButton(Payment.this);
+			downvote.setTextOff("");
+			downvote.setTextOn("");
+			downvote.setText("");
+			downvote.setBackgroundResource(R.drawable.thumbsdown);
+			upvote.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 				@Override
-				public void onClick(View arg0) {
+				public void onCheckedChanged(CompoundButton buttonView,
+						boolean isChecked) {
+					if (isChecked) {
+						downvote.setChecked(false);
+					}
 
 				}
 
 			});
-			Button downvote = new Button(Payment.this);
-			downvote.setBackgroundResource(R.drawable.thumbs_down);
-			downvote.setOnClickListener(new OnClickListener() {
+
+			downvote.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 				@Override
-				public void onClick(View arg0) {
+				public void onCheckedChanged(CompoundButton buttonView,
+						boolean isChecked) {
+					if (isChecked) {
+						upvote.setChecked(false);
+					}
 
 				}
 
@@ -112,7 +129,7 @@ public class Payment extends Activity {
 		paynow.setText("Pay Now");
 		paynow.setTextSize(28);
 		paynow.setTextColor(Color.WHITE);
-		paynow.setTypeface(null,Typeface.BOLD);
+		paynow.setTypeface(null, Typeface.BOLD);
 		paynow.setBackgroundResource(R.drawable.candidate_first_dark);
 		full_layout.addView(paynow, Feed.buttonParams);
 		setContentView(full_layout);
@@ -136,22 +153,20 @@ public class Payment extends Activity {
 		}
 	}
 
-    
-    public static void submitReview(final int food_id, final boolean isThumpsUp) {
+	public static void submitReview(final int food_id, final boolean isThumpsUp) {
 		Thread thread = new Thread(new Runnable() {
 			public void run() {
-				try {					
+				try {
 					JSONObject webRequest = new JSONObject();
 					webRequest.put("user_id", Feed.fb_id);
 					webRequest.put("dish_id", food_id);
-					if(isThumpsUp) {
+					if (isThumpsUp) {
 						webRequest.put("value", "1");
-					}
-					else {
+					} else {
 						webRequest.put("value", "-1");
 					}
-					webRequest.put("comment","");
-					
+					webRequest.put("comment", "");
+
 					Log.v("request", webRequest.toString());
 					ArrayList<JSONObject> response = HTTPClient.SendHttpPost(
 							Constants.WEB_CLIENT_REST_URL_RATINGS, webRequest);
@@ -161,7 +176,7 @@ public class Payment extends Activity {
 				}
 			}
 		});
-		
+
 		thread.start();
 		try {
 			thread.join();
@@ -170,5 +185,5 @@ public class Payment extends Activity {
 			e.printStackTrace();
 		}
 
-    }
+	}
 }
