@@ -52,9 +52,11 @@ public class Feed extends Activity {
 				}
 
 				public void onFacebookError(FacebookError error) {
+					error.printStackTrace();
 				}
 
 				public void onError(DialogError e) {
+					e.printStackTrace();
 				}
 
 				public void onCancel() {
