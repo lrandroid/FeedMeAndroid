@@ -7,12 +7,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.*;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
-import com.facebook.android.FacebookError;
 import com.facebook.android.Facebook.DialogListener;
+import com.facebook.android.FacebookError;
 
 public class Feed extends Activity {
 
@@ -24,7 +25,7 @@ public class Feed extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		Log.v("test","test0");
+		Log.v("test", "test0");
 		// set facebook access token
 		mPrefs = getSharedPreferences(Constants.SHARED_PREFS_NAME, 0);
 		String access_token = mPrefs.getString("access_token", null);
@@ -41,11 +42,11 @@ public class Feed extends Activity {
 		 * Only call authorize if the access_token has expired.
 		 */
 		if (!facebook.isSessionValid()) {
-			Log.v("test","test2");
+			Log.v("test", "test2");
 			facebook.authorize(this, new String[] {}, new DialogListener() {
 
 				public void onComplete(Bundle values) {
-					Log.v("test","test3");
+					Log.v("test", "test3");
 					SharedPreferences.Editor editor = mPrefs.edit();
 					editor.putString("access_token", facebook.getAccessToken());
 					editor.putLong("access_expires",
@@ -64,78 +65,94 @@ public class Feed extends Activity {
 				}
 			});
 		}
-		//if already authorized fb user, then show menu
+		// if already authorized fb user, then show menu
 		else {
-			Log.v("test","test1");
+			Log.v("test", "test1");
 			showMenu();
 		}
 	}
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
 
-        facebook.authorizeCallback(requestCode, resultCode, data);
-    }
-    
-    @Override
-    public void onResume() {    
-        super.onResume();
-        facebook.extendAccessTokenIfNeeded(this, null);
-        showMenu();
-    }
-    
+		facebook.authorizeCallback(requestCode, resultCode, data);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		facebook.extendAccessTokenIfNeeded(this, null);
+		showMenu();
+	}
+
 	public void showMenu() {
 		// query facebook for basic user info
-		String user_info = "";
-		JSONObject json_user_info;
-		try {
-			user_info = facebook.request("me");
-			json_user_info = new JSONObject(user_info);
+			final String[] name = new String[2];
+			Thread thread = new Thread(new Runnable(){
+				public void run(){
+					try {
 
-			// query web client for the following:
-			// 1) construct user json object to pass to web client
-			// 2) notify them that the user has checked into the restaurant,
-			// along with FB user information
-			// 3) receive menu info for the restaurant from the site
+					JSONObject json_user_info;
+					String user_info = "";
+					user_info = facebook.request("me");
+					json_user_info = new JSONObject(user_info);
 
-			// 1) construct user json object to pass to web client
-			String first_name = json_user_info.getString("first_name");
-			String last_name = json_user_info.getString("last_name");
-			String facebook_id = json_user_info.getString("id");
-			JSONObject pass_user_info = new JSONObject();
-			pass_user_info.put("first_name", first_name);
-			pass_user_info.put("last_name", last_name);
-			// pass_user_info.put("facebook_id",facebook_id);
+					// query web client for the following:
+					// 1) construct user json object to pass to web client
+					// 2) notify them that the user has checked into the restaurant,
+					// along with FB user information
+					// 3) receive menu info for the restaurant from the site
 
-			JSONObject webRequest = new JSONObject();
-			String res_id = Session.getRestaurant();
-			webRequest.put("restaurant_id", res_id);
-			String table_id = Session.getTable();
-			webRequest.put("table_id", table_id);
-			webRequest.put("user", pass_user_info);
+					// 1) construct user json object to pass to web client
+					String first_name = json_user_info.getString("first_name");
+					String last_name = json_user_info.getString("last_name");
+					String facebook_id = json_user_info.getString("id");
+					JSONObject pass_user_info = new JSONObject();
+					pass_user_info.put("first_name", first_name);
+					pass_user_info.put("last_name", last_name);
+					// pass_user_info.put("facebook_id",facebook_id);
 
-			// 2) notify them that the user has checked into the restaurant,
-			// along with FB user information
-			// 3) receive menu info for the restaurant from the site
-			Log.v("request", webRequest.toString());
-			JSONObject menu = HTTPClient.SendHttpPost(
-					Constants.WEB_CLIENT_REST_URL, webRequest);
+					JSONObject webRequest = new JSONObject();
+					String res_id = Session.getRestaurant();
+					webRequest.put("restaurant_id", res_id);
+					String table_id = Session.getTable();
+					webRequest.put("table_id", table_id);
+					webRequest.put("user", pass_user_info);
+
+					// 2) notify them that the user has checked into the restaurant,
+					// along with FB user information
+					// 3) receive menu info for the restaurant from the site
+					Log.v("request", webRequest.toString());
+					JSONObject menu = HTTPClient.SendHttpPost(
+							Constants.WEB_CLIENT_REST_URL, webRequest);
+					name[0] = first_name;
+					name[1] = last_name;
+					}catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			});
+			thread.start();
+			try {
+				thread.join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			// Log.v("tested request",menu.toString());
 
 			// Use returned JSONObject to populate layout with food
 			LinearLayout linear = new LinearLayout(this);
 			linear.setOrientation(LinearLayout.VERTICAL);
 			TextView text = new TextView(this);
-			text.setText("welcome: " + first_name + " " + last_name);
+			text.setText("welcome: " + name[0] + " " + name[1]);
 			linear.addView(text);
 			setContentView(linear);
-		}
+	
 		// gotta catch em all
-		catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 	}
 
 	public void showFood(Food food) {
