@@ -24,7 +24,10 @@ public final class R {
         public static final int thumbs_up_locked=0x7f02000a;
         public static final int thumbsdown=0x7f02000b;
         public static final int thumbsup=0x7f02000c;
-        public static final int x=0x7f02000d;
+        public static final int waitress=0x7f02000d;
+        public static final int waitress_pressed=0x7f02000e;
+        public static final int waitress_state=0x7f02000f;
+        public static final int x=0x7f020010;
     }
     public static final class id {
         public static final int menu_settings=0x7f080000;

@@ -55,10 +55,14 @@ public class Feed extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setTitle("FeedMeAndroid");
 		//take to payment page if they've already ordered
-		if(hasOrdered) {
+		if(hasOrdered && InRestaurant.isDoneEating) {
             //launch "payments page"
             Intent myIntent = new Intent(Feed.this, Payment.class);
+            Feed.this.startActivity(myIntent);
+		} else if (hasOrdered){
+			Intent myIntent = new Intent(Feed.this, InRestaurant.class);
             Feed.this.startActivity(myIntent);
 		}
 		
@@ -404,7 +408,7 @@ public class Feed extends Activity {
 								hasOrdered = true;
 								
 			                    //launch "payments page"
-			                    Intent myIntent = new Intent(Feed.this, Payment.class);
+			                    Intent myIntent = new Intent(Feed.this, InRestaurant.class);
 			                    Feed.this.startActivity(myIntent);
 								dialog.cancel();
 							}

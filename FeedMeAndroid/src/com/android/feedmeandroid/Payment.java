@@ -13,8 +13,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -27,10 +25,10 @@ import com.android.feedmeandroid.exception.StripeException;
 import com.android.feedmeandroid.model.Charge;
 
 public class Payment extends Activity {
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setTitle("Payment");
 		final LinearLayout item_layout = new LinearLayout(Payment.this);
 		item_layout.setOrientation(LinearLayout.VERTICAL);
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
