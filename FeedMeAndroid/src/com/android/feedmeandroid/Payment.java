@@ -1,13 +1,17 @@
 package com.android.feedmeandroid;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,6 +22,7 @@ import android.widget.TextView;
 
 import com.android.feedmeandroid.exception.StripeException;
 import com.android.feedmeandroid.model.Charge;
+
 
 public class Payment extends Activity {
 
@@ -130,4 +135,40 @@ public class Payment extends Activity {
 			e.printStackTrace();
 		}
 	}
+
+    
+    public static void submitReview(final int food_id, final boolean isThumpsUp) {
+		Thread thread = new Thread(new Runnable() {
+			public void run() {
+				try {					
+					JSONObject webRequest = new JSONObject();
+					webRequest.put("user_id", Feed.fb_id);
+					webRequest.put("dish_id", food_id);
+					if(isThumpsUp) {
+						webRequest.put("value", "1");
+					}
+					else {
+						webRequest.put("value", "-1");
+					}
+					webRequest.put("comment","");
+					
+					Log.v("request", webRequest.toString());
+					ArrayList<JSONObject> response = HTTPClient.SendHttpPost(
+							Constants.WEB_CLIENT_REST_URL_RATINGS, webRequest);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		thread.start();
+		try {
+			thread.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+    }
 }
